@@ -8,7 +8,20 @@ const { lang } = Astro.props;
 const t = useDict(lang);
 const otro: Locale = lang === 'es' ? 'en' : 'es';
 
-const iconosServicio = ['plane', 'building', 'paw', 'warehouse', 'ship', 'file'];
+// Un icono por servicio, en el mismo orden que `servicios.items` del diccionario.
+// Si se anade un servicio y falta su icono aqui, `Icon` pintaria un SVG vacio sin
+// avisar; por eso el fallback a 'box' en vez de `undefined`.
+const iconosServicio = [
+  'globe',     // mudanzas internacionales
+  'truck',     // locales y nacionales
+  'building',  // oficinas
+  'paw',       // mascotas
+  'warehouse', // almacenaje
+  'ship',      // consolidacion maritima
+  'file',      // gestion aduanera
+  'box',       // embalaje
+  'shield',    // seguros
+];
 const iconosStat = ['shield', 'globe', 'clock'];
 
 const waSaludo = lang === 'es'
@@ -194,7 +207,7 @@ const waSaludo = lang === 'es'
       {t.servicios.items.map((s, i) => (
         <article class="bg-white border border-gray-100 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-shadow duration-300 group fade-in-up">
           <div class="w-14 h-14 bg-primary-50 rounded-xl flex items-center justify-center text-primary-600 mb-6 group-hover:bg-primary-600 group-hover:text-white transition-colors duration-300">
-            <Icon name={iconosServicio[i]} class="w-7 h-7" />
+            <Icon name={iconosServicio[i] ?? 'box'} class="w-7 h-7" />
           </div>
           <h3 class="text-xl font-bold text-gray-900 mb-3">{s.t}</h3>
           <p class="text-gray-600 leading-relaxed">{s.d}</p>

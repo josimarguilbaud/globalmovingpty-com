@@ -60,7 +60,9 @@ español, que es lo que pasó en las webs de San Blas sin que nadie lo notara.
 ## SEO
 
 - `MovingCompany` con dirección, teléfono, horario y área servida.
-- `ItemList` con los 6 servicios, cada uno como `Service`.
+- `ItemList` con los 9 servicios, cada uno como `Service`. La lista sale del
+  diccionario: al anadir uno hay que anadir tambien su icono en `iconosServicio`
+  (`Home.astro`), o el hueco se pinta con un SVG vacio sin avisar.
 - hreflang es/en + x-default, canonical, meta description, Open Graph.
 - Sitemap automático.
 

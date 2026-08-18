@@ -2,11 +2,10 @@ import { SITE_URL, EMPRESA, langUrl, type Locale } from './site';
 import { useDict } from '../i18n';
 
 /**
- * Los seis servicios, declarados como `Service`.
+ * Los servicios del catalogo, declarados como `Service`.
  *
- * Cada uno es un servicio que la empresa presta de verdad y que además está
- * escrito en la página: mudanza internacional, oficinas, mascotas, almacenaje,
- * consolidación marítima Panamá-Miami y seguros. Google los puede mostrar como
+ * La lista sale del diccionario, asi que anadir un servicio en `es.json`/`en.json`
+ * lo mete en el marcado sin tocar este fichero. Google los puede mostrar como
  * lista de servicios del negocio, y la web anterior no declaraba ninguno.
  *
  * Regla que no se salta: solo entra aquí lo que el visitante VE en la página.

@@ -22,9 +22,18 @@
     "cta2": "Conocer servicios"
   },
   "stats": [
-    { "t": "100% Seguro", "d": "Embalaje profesional y seguros" },
-    { "t": "Red Global", "d": "Cobertura en los 5 continentes" },
-    { "t": "+20 Años", "d": "Experiencia en el sector" }
+    {
+      "t": "100% Seguro",
+      "d": "Embalaje profesional y seguros"
+    },
+    {
+      "t": "Red Global",
+      "d": "Cobertura en los 5 continentes"
+    },
+    {
+      "t": "+20 Años",
+      "d": "Experiencia en el sector"
+    }
   ],
   "nosotros": {
     "eyebrow": "Conócenos",
@@ -44,24 +53,66 @@
   "servicios": {
     "eyebrow": "Nuestros servicios",
     "h2": "Soluciones integrales de mudanza",
-    "lead": "Gestionamos todo el proceso para que su traslado sea una experiencia sin estrés.",
+    "lead": "Gestionamos el proceso completo, del inventario en su casa a la entrega en destino, para que su traslado sea una experiencia sin estrés.",
     "items": [
-      { "t": "Mudanzas internacionales", "d": "Servicio confiable hacia cualquier parte del mundo: planificación, embalaje, transporte y entrega en destino final." },
-      { "t": "Mudanza de oficinas", "d": "Mudanzas corporativas con estándar internacional, ejecutadas con el menor impacto en su operación." },
-      { "t": "Mudanza de mascotas", "d": "Logística completa para el traslado de mascotas a nivel mundial, con asistencia documental y aduanera." },
-      { "t": "Servicio de almacenaje", "d": "Bodegas con detección de humo y vigilancia 24/7, para corto o largo plazo." },
-      { "t": "Consolidación marítima", "d": "Servicio especial desde Panamá a Miami: comparta contenedor y optimice costos sin comprometer la seguridad." },
-      { "t": "Seguros especializados", "d": "Coberturas nacionales e internacionales para proteger sus bienes durante manipulación, traslado o almacenaje." }
+      {
+        "t": "Mudanzas internacionales",
+        "d": "Trasladamos su menaje de casa desde Panamá a cualquier destino del mundo, puerta a puerta. Coordinamos el inventario, el embalaje de exportación, el flete marítimo o aéreo, el despacho de aduana en origen y destino, y la entrega dentro de su nueva vivienda. Un solo coordinador responde por toda la mudanza, de principio a fin."
+      },
+      {
+        "t": "Mudanzas locales y nacionales",
+        "d": "Mudanzas dentro de Ciudad de Panamá y hacia el interior del país, con el mismo embalaje y el mismo cuidado que aplicamos en una mudanza internacional. Ideal para cambios de residencia, traslados entre apartamentos y reubicaciones de personal dentro de Panamá, con equipo propio y camión adecuado al volumen real de su casa."
+      },
+      {
+        "t": "Mudanza de oficinas",
+        "d": "Mudanzas corporativas con estándar internacional, planificadas para que su empresa siga operando. Trabajamos fuera de horario y en fines de semana, etiquetamos por puesto de trabajo y reinstalamos mobiliario, archivo y equipo informático en la nueva sede, para que el lunes cada persona encuentre su escritorio funcionando."
+      },
+      {
+        "t": "Mudanza de mascotas",
+        "d": "Logística completa para trasladar a su mascota junto con la familia. Coordinamos el certificado veterinario, el permiso zoosanitario de exportación, la guacal homologada por IATA y la reserva del vuelo con aerolíneas que aceptan animales vivos, además del trámite de ingreso en el país de destino."
+      },
+      {
+        "t": "Servicio de almacenaje",
+        "d": "Bodegas cerradas en Ciudad de Panamá con vigilancia 24/7, detección de humo y control de acceso, para guardar su menaje por días o por meses. Útil mientras cierra la compra de su casa, espera la visa o coordina la fecha de embarque. Se cobra por el volumen que realmente ocupa, no por un módulo fijo."
+      },
+      {
+        "t": "Consolidación marítima Panamá – Miami",
+        "d": "Servicio de carga consolidada entre Panamá y Miami: su menaje viaja en contenedor compartido con otros embarques, así paga solo por los metros cúbicos que ocupa. Es la opción más económica cuando no llena un contenedor completo y no tiene prisa por la fecha de llegada."
+      },
+      {
+        "t": "Gestión y despacho aduanero",
+        "d": "Tramitamos su menaje de casa ante la Autoridad Nacional de Aduanas de Panamá y coordinamos el despacho en destino con nuestra red de agentes. Preparamos el inventario valorado, la declaración y los soportes de exoneración cuando aplica, y le decimos por adelantado qué impuestos corresponden para que no haya sorpresas en el puerto."
+      },
+      {
+        "t": "Embalaje y desembalaje profesional",
+        "d": "Embalamos pieza por pieza con materiales de exportación: cartón de doble pared, papel libre de ácido para vajilla y obras de arte, mantas de mudanza para muebles y huacales de madera con sello NIMF 15 para lo frágil. En destino desembalamos, montamos el mobiliario y retiramos todo el material de embalaje."
+      },
+      {
+        "t": "Seguros especializados",
+        "d": "Pólizas de transporte nacional e internacional que cubren su menaje durante la manipulación, el trayecto marítimo o aéreo y el tiempo en bodega. Le explicamos qué cubre cada modalidad y qué valor declarar según el inventario, para que la cobertura corresponda a lo que realmente está enviando."
+      }
     ]
   },
   "proceso": {
     "h2": "Nuestro proceso",
     "lead": "De Panamá a cualquier lugar del mundo, con un equipo que le acompaña de principio a fin.",
     "pasos": [
-      { "t": "Visita inicial", "d": "Inspección de bienes en su domicilio y entrega de documentación." },
-      { "t": "Embalaje profesional", "d": "Materiales de alta calidad para máxima protección." },
-      { "t": "Gestión aduanera", "d": "Trámites y logística internacional sin complicaciones." },
-      { "t": "Entrega en destino", "d": "Llegada segura a su nuevo hogar u oficina." }
+      {
+        "t": "Visita inicial",
+        "d": "Inspección de bienes en su domicilio y entrega de documentación."
+      },
+      {
+        "t": "Embalaje profesional",
+        "d": "Materiales de alta calidad para máxima protección."
+      },
+      {
+        "t": "Gestión aduanera",
+        "d": "Trámites y logística internacional sin complicaciones."
+      },
+      {
+        "t": "Entrega en destino",
+        "d": "Llegada segura a su nuevo hogar u oficina."
+      }
     ]
   },
   "contacto": {
