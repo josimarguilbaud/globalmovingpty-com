@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "title": "Mudanzas Internacionales en Panamá | Global Moving Solutions",
+    "description": "Mudanzas internacionales desde Panamá al mundo. Más de 20 años embalando, transportando y gestionando la aduana de su menaje de casa. Cotización sin compromiso."
+  },
+  "nav": {
+    "inicio": "Inicio",
+    "nosotros": "Nosotros",
+    "servicios": "Servicios",
+    "contacto": "Contacto",
+    "cotizar": "Cotizar"
+  },
+  "topbar": {
+    "horario": "Horario: Lun a Vie, 8:00 AM – 5:00 PM"
+  },
+  "hero": {
+    "eyebrow": "Mudanzas internacionales en Panamá",
+    "h1_a": "Llevamos tu mundo a",
+    "h1_b": "cualquier lugar",
+    "lead": "Más de 20 años planificando, embalando y transportando tus bienes con seguridad, eficiencia y profesionalismo a nivel global.",
+    "cta1": "Solicitar presupuesto",
+    "cta2": "Conocer servicios"
+  },
+  "stats": [
+    { "t": "100% Seguro", "d": "Embalaje profesional y seguros" },
+    { "t": "Red Global", "d": "Cobertura en los 5 continentes" },
+    { "t": "+20 Años", "d": "Experiencia en el sector" }
+  ],
+  "nosotros": {
+    "eyebrow": "Conócenos",
+    "h2_a": "Su aliado de confianza para",
+    "h2_b": "mudanzas internacionales",
+    "p1": "Somos una empresa con más de dos décadas de trayectoria. Trasladamos sus pertenencias de forma segura y eficiente, manejando sus bienes como si fueran nuestros.",
+    "p2": "Contamos con una red de socios y agentes internacionales que nos permite gestionar los trámites aduaneros y asegurar un traslado sin problemas a cualquier destino en los 5 continentes.",
+    "puntos": [
+      "Trato personalizado y atención al detalle.",
+      "Materiales de embalaje de alta calidad.",
+      "Asistencia completa en trámites aduaneros."
+    ],
+    "cta": "Contactar a un asesor",
+    "badge_t": "Expertos",
+    "badge_d": "En trámites aduaneros"
+  },
+  "servicios": {
+    "eyebrow": "Nuestros servicios",
+    "h2": "Soluciones integrales de mudanza",
+    "lead": "Gestionamos todo el proceso para que su traslado sea una experiencia sin estrés.",
+    "items": [
+      { "t": "Mudanzas internacionales", "d": "Servicio confiable hacia cualquier parte del mundo: planificación, embalaje, transporte y entrega en destino final." },
+      { "t": "Mudanza de oficinas", "d": "Mudanzas corporativas con estándar internacional, ejecutadas con el menor impacto en su operación." },
+      { "t": "Mudanza de mascotas", "d": "Logística completa para el traslado de mascotas a nivel mundial, con asistencia documental y aduanera." },
+      { "t": "Servicio de almacenaje", "d": "Bodegas con detección de humo y vigilancia 24/7, para corto o largo plazo." },
+      { "t": "Consolidación marítima", "d": "Servicio especial desde Panamá a Miami: comparta contenedor y optimice costos sin comprometer la seguridad." },
+      { "t": "Seguros especializados", "d": "Coberturas nacionales e internacionales para proteger sus bienes durante manipulación, traslado o almacenaje." }
+    ]
+  },
+  "proceso": {
+    "h2": "Nuestro proceso",
+    "lead": "De Panamá a cualquier lugar del mundo, con un equipo que le acompaña de principio a fin.",
+    "pasos": [
+      { "t": "Visita inicial", "d": "Inspección de bienes en su domicilio y entrega de documentación." },
+      { "t": "Embalaje profesional", "d": "Materiales de alta calidad para máxima protección." },
+      { "t": "Gestión aduanera", "d": "Trámites y logística internacional sin complicaciones." },
+      { "t": "Entrega en destino", "d": "Llegada segura a su nuevo hogar u oficina." }
+    ]
+  },
+  "contacto": {
+    "h2": "Contáctenos",
+    "lead": "Estamos listos para hacer de su próxima mudanza una experiencia exitosa y libre de estrés. Solicite su cotización sin compromiso.",
+    "llamanos": "Llámenos",
+    "email": "Correo",
+    "ubicacion": "Ubicación",
+    "ubicacion_v": "Ciudad de Panamá, Panamá",
+    "form_h": "Solicitud de cotización",
+    "f_nombre": "Nombre completo",
+    "f_telefono": "Teléfono",
+    "f_email": "Correo electrónico",
+    "f_fecha": "Fecha aproximada",
+    "f_origen": "Ciudad y país de origen",
+    "f_destino": "Ciudad y país de destino",
+    "f_tipo": "Tipo de mudanza",
+    "f_tipo_int": "Internacional",
+    "f_tipo_loc": "Local",
+    "f_empaque": "¿Necesita servicio de empaque?",
+    "f_si": "Sí",
+    "f_no": "No",
+    "f_detalles": "Detalles adicionales",
+    "f_enviar": "Enviar por WhatsApp",
+    "f_nota": "Se abre WhatsApp con su solicitud ya escrita. Así llega al instante y queda constancia en su teléfono."
+  },
+  "footer": {
+    "sobre": "Su aliado para mudanzas internacionales desde Panamá hacia cualquier parte del mundo. Seguridad, puntualidad y profesionalismo.",
+    "enlaces": "Enlaces",
+    "servicios": "Servicios",
+    "derechos": "Todos los derechos reservados."
+  }
+}

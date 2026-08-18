@@ -1,0 +1,97 @@
+---
+import '../styles/global.css';
+import { SITE_URL, EMPRESA, LOCALES, langUrl, type Locale } from '../lib/site';
+
+interface Props {
+  lang: Locale;
+  title: string;
+  description: string;
+  /** Ruta canónica SIN prefijo de idioma, ej. '/', '/servicios' */
+  path?: string;
+  /** JSON-LD extra de la página. Solo lo que sea VISIBLE en ella. */
+  jsonld?: object | object[];
+}
+
+const { lang, title, description, path = '/', jsonld } = Astro.props;
+const canonical = `${SITE_URL}${langUrl(lang, path)}`;
+
+/**
+ * El negocio, en datos estructurados.
+ *
+ * La web anterior (WordPress + Elementor) no declaraba NADA: ni schema, ni
+ * hreflang, ni meta description. Un resultado sin dirección, sin teléfono y sin
+ * horario compite en desventaja contra cualquiera que sí los declare, y en
+ * búsquedas locales es la diferencia entre salir en el mapa o no salir.
+ *
+ * `MovingCompany` es un subtipo de LocalBusiness que existe justo para esto.
+ *
+ * ⚠️ Aquí NO va aggregateRating. Google exige reseñas reales y visibles en la
+ * página para mostrarlo; declarar una nota sin ellas arriesga perder el
+ * resultado enriquecido entero. Las cifras del hero son texto, no schema.
+ */
+const negocioLd = {
+  '@context': 'https://schema.org',
+  '@type': 'MovingCompany',
+  '@id': `${SITE_URL}/#negocio`,
+  name: EMPRESA.nombre,
+  url: SITE_URL,
+  email: EMPRESA.email,
+  telephone: EMPRESA.telefonoRaw,
+  image: `${SITE_URL}/og-default.jpg`,
+  priceRange: '$$',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: EMPRESA.ciudad,
+    addressCountry: EMPRESA.pais,
+  },
+  areaServed: { '@type': 'Country', name: 'Panamá' },
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '08:00',
+    closes: '17:00',
+  },
+  sameAs: [] as string[],
+};
+
+const ldItems = [negocioLd, ...(jsonld ? (Array.isArray(jsonld) ? jsonld : [jsonld]) : [])];
+---
+<!doctype html>
+<html lang={lang} class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    {/* hreflang: la web anterior no tenía inglés siquiera. */}
+    {LOCALES.map((l) => (
+      <link rel="alternate" hreflang={l} href={`${SITE_URL}${langUrl(l, path)}`} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={`${SITE_URL}${langUrl('es', path)}`} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${SITE_URL}/og-default.jpg`} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_PA' : 'en_US'} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    {ldItems.map((item) => (
+      <script type="application/ld+json" set:html={JSON.stringify(item)} />
+    ))}
+  </head>
+  <body class="font-sans text-gray-800 antialiased bg-gray-50">
+    <slot />
+  </body>
+</html>

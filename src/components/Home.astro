@@ -1,0 +1,429 @@
+---
+import Icon from './Icon.astro';
+import { EMPRESA, langUrl, waLink, type Locale } from '../lib/site';
+import { useDict } from '../i18n';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const t = useDict(lang);
+const otro: Locale = lang === 'es' ? 'en' : 'es';
+
+const iconosServicio = ['plane', 'building', 'paw', 'warehouse', 'ship', 'file'];
+const iconosStat = ['shield', 'globe', 'clock'];
+
+const waSaludo = lang === 'es'
+  ? 'Hola, quiero cotizar una mudanza internacional desde Panamá.'
+  : 'Hi, I would like a quote for an international move from Panama.';
+---
+
+{/* ── Barra superior ─────────────────────────────────────────── */}
+<div class="bg-primary-900 text-white text-sm py-2 px-4 hidden md:block">
+  <div class="container mx-auto flex justify-between items-center">
+    <div class="flex space-x-6">
+      <a href={`mailto:${EMPRESA.email}`} class="flex items-center hover:text-secondary transition">
+        <Icon name="mail" class="w-4 h-4 mr-2" /> {EMPRESA.email}
+      </a>
+      <a href={`tel:${EMPRESA.telefonoRaw}`} class="flex items-center hover:text-secondary transition">
+        <Icon name="phone" class="w-4 h-4 mr-2" /> {EMPRESA.telefono}
+      </a>
+    </div>
+    <div class="flex items-center gap-5">
+      <span>{t.topbar.horario}</span>
+      <a href={langUrl(otro, '/')} class="font-semibold hover:text-secondary transition" hreflang={otro}>
+        {otro.toUpperCase()}
+      </a>
+    </div>
+  </div>
+</div>
+
+{/* ── Cabecera ───────────────────────────────────────────────── */}
+<header class="bg-white shadow-sm sticky top-0 z-50" id="main-header">
+  <div class="container mx-auto px-4 py-4">
+    <div class="flex justify-between items-center">
+      <a href={langUrl(lang, '/')} class="flex items-center space-x-2">
+        <div class="bg-primary-600 text-white p-2 rounded-lg">
+          <Icon name="globe" class="w-6 h-6" />
+        </div>
+        <div>
+          <span class="block text-xl font-bold text-primary-900 leading-tight">{EMPRESA.nombreCorto}</span>
+          <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold">{EMPRESA.bajada}</span>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex space-x-8 items-center">
+        <a href="#inicio" class="text-gray-600 hover:text-primary-600 font-medium transition">{t.nav.inicio}</a>
+        <a href="#nosotros" class="text-gray-600 hover:text-primary-600 font-medium transition">{t.nav.nosotros}</a>
+        <a href="#servicios" class="text-gray-600 hover:text-primary-600 font-medium transition">{t.nav.servicios}</a>
+        <a href="#contacto" class="text-gray-600 hover:text-primary-600 font-medium transition">{t.nav.contacto}</a>
+        <a href={waLink(waSaludo)} target="_blank" rel="noopener"
+           class="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-full font-medium transition shadow-md flex items-center">
+          <Icon name="whatsapp" class="w-5 h-5 mr-2" filled /> {t.nav.cotizar}
+        </a>
+      </nav>
+
+      <button id="mobile-menu-btn" class="md:hidden text-gray-600 p-2" aria-expanded="false" aria-controls="mobile-menu"
+              aria-label={t.nav.inicio}>
+        <Icon name="menu" class="w-7 h-7" />
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-100 hidden">
+    <div class="container mx-auto px-4 py-4 flex flex-col space-y-4">
+      <a href="#inicio" class="text-gray-600 font-medium">{t.nav.inicio}</a>
+      <a href="#nosotros" class="text-gray-600 font-medium">{t.nav.nosotros}</a>
+      <a href="#servicios" class="text-gray-600 font-medium">{t.nav.servicios}</a>
+      <a href="#contacto" class="text-gray-600 font-medium">{t.nav.contacto}</a>
+      <div class="pt-2 border-t border-gray-100 flex flex-col gap-2">
+        <a href={`tel:${EMPRESA.movilRaw}`} class="flex items-center text-gray-600">
+          <Icon name="phone" class="w-4 h-4 mr-2 text-primary-600" /> {EMPRESA.movil}
+        </a>
+        <a href={langUrl(otro, '/')} class="text-gray-600 font-semibold" hreflang={otro}>{otro.toUpperCase()}</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+{/*
+  ── Hero ──
+  Sin `fade-in-up`: el titular se ve al instante, con JS o sin él. En la
+  plantilla original nacía en opacity:0 y dependía del observador.
+*/}
+<section id="inicio" class="hero-pattern min-h-[80vh] flex items-center relative overflow-hidden">
+  <div class="container mx-auto px-4 relative z-10 py-20">
+    <div class="max-w-3xl text-white">
+      <span class="inline-block py-1 px-3 rounded-full bg-primary-600/60 border border-primary-500 text-sm font-semibold tracking-wider mb-6">
+        {t.hero.eyebrow}
+      </span>
+      <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
+        {t.hero.h1_a} <span class="text-secondary">{t.hero.h1_b}</span>.
+      </h1>
+      <p class="text-lg md:text-xl text-gray-200 mb-10 leading-relaxed">{t.hero.lead}</p>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <a href="#contacto"
+           class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-lg font-semibold transition text-center shadow-lg">
+          {t.hero.cta1}
+        </a>
+        <a href="#servicios"
+           class="bg-white/10 hover:bg-white/20 border border-white/30 text-white px-8 py-4 rounded-lg font-semibold transition text-center backdrop-blur-sm">
+          {t.hero.cta2}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{/* ── Barra de garantías ─────────────────────────────────────── */}
+<section class="relative -mt-12 z-20 px-4">
+  <div class="container mx-auto">
+    <div class="bg-white rounded-xl shadow-xl p-8 grid grid-cols-1 md:grid-cols-3 gap-8 divide-y md:divide-y-0 md:divide-x divide-gray-100">
+      {t.stats.map((s, i) => (
+        <div class="flex items-center space-x-4 text-center md:text-left pt-4 md:pt-0">
+          <div class="bg-primary-50 p-4 rounded-full text-primary-600 shrink-0 mx-auto md:mx-0">
+            <Icon name={iconosStat[i]} class="w-6 h-6" />
+          </div>
+          <div>
+            <p class="font-bold text-gray-900 text-lg">{s.t}</p>
+            <p class="text-sm text-gray-500">{s.d}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+{/* ── Nosotros ───────────────────────────────────────────────── */}
+<section id="nosotros" class="py-24 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col lg:flex-row items-center gap-16">
+      <div class="w-full lg:w-1/2 relative fade-in-up">
+        <div class="relative rounded-2xl overflow-hidden shadow-2xl bg-primary-900 aspect-4/3">
+          {/* PENDIENTE: foto real del equipo embalando. Ver README, «Fotos». */}
+          <img src="/img/equipo.svg" alt={t.nosotros.badge_d} width="800" height="600"
+               loading="lazy" decoding="async" class="w-full h-full object-cover" />
+        </div>
+        <div class="absolute -bottom-8 -right-8 bg-white p-6 rounded-xl shadow-xl hidden md:block">
+          <div class="flex items-center space-x-4">
+            <div class="text-primary-600"><Icon name="star" class="w-7 h-7" filled /></div>
+            <div>
+              <p class="text-2xl font-bold text-gray-900">{t.nosotros.badge_t}</p>
+              <p class="text-gray-500 text-sm">{t.nosotros.badge_d}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-full lg:w-1/2 fade-in-up">
+        <div class="inline-block py-1 px-3 rounded-full bg-primary-50 text-primary-700 text-sm font-semibold tracking-wider mb-4">
+          {t.nosotros.eyebrow}
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">
+          {t.nosotros.h2_a} <span class="text-primary-600">{t.nosotros.h2_b}</span>
+        </h2>
+        <p class="text-gray-600 mb-6 leading-relaxed">{t.nosotros.p1}</p>
+        <p class="text-gray-600 mb-8 leading-relaxed">{t.nosotros.p2}</p>
+        <ul class="space-y-4 mb-8">
+          {t.nosotros.puntos.map((p) => (
+            <li class="flex items-start">
+              <Icon name="check" class="w-5 h-5 text-secondary mt-0.5 mr-3 shrink-0" />
+              <span class="text-gray-700 font-medium">{p}</span>
+            </li>
+          ))}
+        </ul>
+        <a href="#contacto" class="inline-flex items-center text-primary-600 font-semibold hover:text-primary-800 transition group">
+          {t.nosotros.cta}
+          <Icon name="arrow" class="w-4 h-4 ml-2 transition group-hover:translate-x-1" />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{/* ── Servicios ──────────────────────────────────────────────── */}
+<section id="servicios" class="py-24 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center max-w-2xl mx-auto mb-16 fade-in-up">
+      <div class="inline-block py-1 px-3 rounded-full bg-primary-50 text-primary-700 text-sm font-semibold tracking-wider mb-4">
+        {t.servicios.eyebrow}
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t.servicios.h2}</h2>
+      <p class="text-gray-600">{t.servicios.lead}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {t.servicios.items.map((s, i) => (
+        <article class="bg-white border border-gray-100 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-shadow duration-300 group fade-in-up">
+          <div class="w-14 h-14 bg-primary-50 rounded-xl flex items-center justify-center text-primary-600 mb-6 group-hover:bg-primary-600 group-hover:text-white transition-colors duration-300">
+            <Icon name={iconosServicio[i]} class="w-7 h-7" />
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">{s.t}</h3>
+          <p class="text-gray-600 leading-relaxed">{s.d}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+{/* ── Proceso ────────────────────────────────────────────────── */}
+<section class="py-20 bg-primary-900 text-white relative overflow-hidden">
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="text-center mb-16 fade-in-up">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">{t.proceso.h2}</h2>
+      <p class="text-gray-300 max-w-2xl mx-auto">{t.proceso.lead}</p>
+    </div>
+    <ol class="grid grid-cols-1 md:grid-cols-4 gap-8 relative list-none p-0">
+      <div class="hidden md:block absolute top-8 left-0 right-0 h-0.5 bg-primary-700 z-0"></div>
+      {t.proceso.pasos.map((p, i) => (
+        <li class="relative z-10 text-center fade-in-up">
+          <div class="w-16 h-16 mx-auto bg-primary-600 border-4 border-primary-900 rounded-full flex items-center justify-center text-xl font-bold mb-4 shadow-lg">
+            {i + 1}
+          </div>
+          <h3 class="font-bold text-lg mb-2">{p.t}</h3>
+          <p class="text-sm text-gray-300">{p.d}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+{/* ── Contacto ───────────────────────────────────────────────── */}
+<section id="contacto" class="py-24 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col lg:flex-row gap-12 max-w-6xl mx-auto">
+      <div class="w-full lg:w-1/3 fade-in-up">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">{t.contacto.h2}</h2>
+        <p class="text-gray-600 mb-8">{t.contacto.lead}</p>
+        <div class="space-y-6">
+          <div class="flex items-start">
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-primary-600 shadow-sm shrink-0">
+              <Icon name="phone" class="w-5 h-5" />
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-semibold text-gray-500 uppercase tracking-wider">{t.contacto.llamanos}</p>
+              <a href={`tel:${EMPRESA.telefonoRaw}`} class="text-lg font-medium text-gray-900 hover:text-primary-600 transition block">{EMPRESA.telefono}</a>
+              <a href={`tel:${EMPRESA.movilRaw}`} class="text-lg font-medium text-gray-900 hover:text-primary-600 transition block">{EMPRESA.movil}</a>
+            </div>
+          </div>
+          <div class="flex items-start">
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-primary-600 shadow-sm shrink-0">
+              <Icon name="mail" class="w-5 h-5" />
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-semibold text-gray-500 uppercase tracking-wider">{t.contacto.email}</p>
+              <a href={`mailto:${EMPRESA.email}`} class="text-lg font-medium text-gray-900 hover:text-primary-600 transition break-all">{EMPRESA.email}</a>
+            </div>
+          </div>
+          <div class="flex items-start">
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-primary-600 shadow-sm shrink-0">
+              <Icon name="pin" class="w-5 h-5" />
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-semibold text-gray-500 uppercase tracking-wider">{t.contacto.ubicacion}</p>
+              <p class="text-lg font-medium text-gray-900">{t.contacto.ubicacion_v}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/*
+        El formulario abre WhatsApp con la solicitud ya escrita.
+        En la plantilla no enviaba a ningún sitio: `action="#"` y un setTimeout
+        que fingía el envío. Un formulario que finge funcionar pierde clientes
+        sin que nadie se entere. Sin servidor propio, WhatsApp es lo que de
+        verdad cierra en Panamá, y el cliente conserva copia de lo que pidió.
+      */}
+      <div class="w-full lg:w-2/3 bg-white rounded-2xl shadow-xl p-8 lg:p-10 fade-in-up">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6 border-b pb-4">{t.contacto.form_h}</h3>
+        <form id="quoteForm" class="space-y-6" data-wa={EMPRESA.whatsapp} data-lang={lang}>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label for="f-nombre" class="block text-sm font-medium text-gray-700 mb-2">{t.contacto.f_nombre} *</label>
+              <input id="f-nombre" name="nombre" type="text" required autocomplete="name"
+                     class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition outline-none" />
+            </div>
+            <div>
+              <label for="f-tel" class="block text-sm font-medium text-gray-700 mb-2">{t.contacto.f_telefono} *</label>
+              <input id="f-tel" name="telefono" type="tel" required autocomplete="tel"
+                     class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition outline-none" />
+            </div>
+            <div>
+              <label for="f-email" class="block text-sm font-medium text-gray-700 mb-2">{t.contacto.f_email}</label>
+              <input id="f-email" name="email" type="email" autocomplete="email"
+                     class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition outline-none" />
+            </div>
+            <div>
+              <label for="f-fecha" class="block text-sm font-medium text-gray-700 mb-2">{t.contacto.f_fecha}</label>
+              <input id="f-fecha" name="fecha" type="date"
+                     class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition outline-none" />
+            </div>
+            <div>
+              <label for="f-origen" class="block text-sm font-medium text-gray-700 mb-2">{t.contacto.f_origen} *</label>
+              <input id="f-origen" name="origen" type="text" required placeholder="Panamá, Panamá"
+                     class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition outline-none" />
+            </div>
+            <div>
+              <label for="f-destino" class="block text-sm font-medium text-gray-700 mb-2">{t.contacto.f_destino} *</label>
+              <input id="f-destino" name="destino" type="text" required placeholder="Miami, USA"
+                     class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition outline-none" />
+            </div>
+            <div>
+              <label for="f-tipo" class="block text-sm font-medium text-gray-700 mb-2">{t.contacto.f_tipo}</label>
+              <select id="f-tipo" name="tipo"
+                      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition outline-none bg-white">
+                <option>{t.contacto.f_tipo_int}</option>
+                <option>{t.contacto.f_tipo_loc}</option>
+              </select>
+            </div>
+            <div>
+              <label for="f-empaque" class="block text-sm font-medium text-gray-700 mb-2">{t.contacto.f_empaque}</label>
+              <select id="f-empaque" name="empaque"
+                      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition outline-none bg-white">
+                <option>{t.contacto.f_si}</option>
+                <option>{t.contacto.f_no}</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label for="f-detalles" class="block text-sm font-medium text-gray-700 mb-2">{t.contacto.f_detalles}</label>
+            <textarea id="f-detalles" name="detalles" rows="4"
+                      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition outline-none resize-none"></textarea>
+          </div>
+          <button type="submit"
+                  class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-lg transition shadow-md flex items-center justify-center gap-2">
+            <Icon name="whatsapp" class="w-5 h-5" filled /> {t.contacto.f_enviar}
+          </button>
+          <p class="text-sm text-gray-500 text-center">{t.contacto.f_nota}</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{/* ── Pie ────────────────────────────────────────────────────── */}
+<footer class="bg-gray-900 text-gray-300 py-12">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+      <div>
+        <div class="flex items-center space-x-2 mb-6">
+          <div class="bg-primary-600 text-white p-2 rounded"><Icon name="globe" class="w-5 h-5" /></div>
+          <div>
+            <span class="block text-xl font-bold text-white leading-tight">{EMPRESA.nombreCorto}</span>
+            <span class="text-xs text-gray-400 uppercase tracking-wider font-semibold">Solutions</span>
+          </div>
+        </div>
+        <p class="text-sm text-gray-400">{t.footer.sobre}</p>
+      </div>
+      <div>
+        <h2 class="text-white font-bold mb-6 uppercase tracking-wider text-sm">{t.footer.enlaces}</h2>
+        <ul class="space-y-3 text-sm">
+          <li><a href="#inicio" class="hover:text-primary-400 transition">{t.nav.inicio}</a></li>
+          <li><a href="#nosotros" class="hover:text-primary-400 transition">{t.nav.nosotros}</a></li>
+          <li><a href="#servicios" class="hover:text-primary-400 transition">{t.nav.servicios}</a></li>
+          <li><a href="#contacto" class="hover:text-primary-400 transition">{t.nav.contacto}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="text-white font-bold mb-6 uppercase tracking-wider text-sm">{t.footer.servicios}</h2>
+        <ul class="space-y-3 text-sm text-gray-400">
+          {t.servicios.items.slice(0, 5).map((s) => <li>{s.t}</li>)}
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 pt-8 text-sm text-gray-500">
+      <p>&copy; {new Date().getFullYear()} {EMPRESA.nombre} PTY. {t.footer.derechos}</p>
+    </div>
+  </div>
+</footer>
+
+<a href={waLink(waSaludo)} target="_blank" rel="noopener"
+   class="fixed bottom-6 right-6 bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl hover:bg-green-700 hover:scale-110 transition-all z-50"
+   aria-label="WhatsApp">
+  <Icon name="whatsapp" class="w-7 h-7" filled />
+</a>
+
+<script>
+  // Marca que hay JS: el CSS deja las secciones visibles si esto no corre.
+  document.documentElement.classList.remove('no-js');
+
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  btn?.addEventListener('click', () => {
+    const abierto = menu?.classList.toggle('hidden') === false;
+    btn.setAttribute('aria-expanded', String(abierto));
+  });
+  menu?.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => menu.classList.add('hidden'))
+  );
+
+  const obs = new IntersectionObserver(
+    (entries) => entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    }),
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll('.fade-in-up').forEach((el) => obs.observe(el));
+
+  // El formulario arma el mensaje y abre WhatsApp. Nada se pierde en un buzón.
+  const form = document.getElementById('quoteForm') as HTMLFormElement | null;
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const d = new FormData(form);
+    const es = form.dataset.lang !== 'en';
+    const v = (k: string) => String(d.get(k) || '').trim();
+    const linea = (etiqueta: string, valor: string) => (valor ? `${etiqueta}: ${valor}\n` : '');
+
+    const msg =
+      (es ? 'Solicitud de cotización desde la web\n\n' : 'Quote request from the website\n\n') +
+      linea(es ? 'Nombre' : 'Name', v('nombre')) +
+      linea(es ? 'Teléfono' : 'Phone', v('telefono')) +
+      linea(es ? 'Correo' : 'Email', v('email')) +
+      linea(es ? 'Origen' : 'From', v('origen')) +
+      linea(es ? 'Destino' : 'To', v('destino')) +
+      linea(es ? 'Fecha' : 'Date', v('fecha')) +
+      linea(es ? 'Tipo' : 'Type', v('tipo')) +
+      linea(es ? 'Empaque' : 'Packing', v('empaque')) +
+      linea(es ? 'Detalles' : 'Notes', v('detalles'));
+
+    window.open(`https://wa.me/${form.dataset.wa}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+  });
+</script>

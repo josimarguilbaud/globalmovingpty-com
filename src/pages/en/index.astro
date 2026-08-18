@@ -1,0 +1,13 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Home from '../../components/Home.astro';
+import { useDict } from '../../i18n';
+import { serviciosJsonLd } from '../../lib/schema';
+
+const lang = 'en' as const;
+const t = useDict(lang);
+---
+<Layout lang={lang} title={t.meta.title} description={t.meta.description} path="/"
+        jsonld={serviciosJsonLd(lang)}>
+  <Home lang={lang} />
+</Layout>

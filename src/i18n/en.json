@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "title": "International Movers in Panama | Global Moving Solutions",
+    "description": "International moving from Panama to anywhere in the world. Over 20 years packing, shipping and clearing customs for household goods. Free quote, no strings."
+  },
+  "nav": {
+    "inicio": "Home",
+    "nosotros": "About",
+    "servicios": "Services",
+    "contacto": "Contact",
+    "cotizar": "Get a quote"
+  },
+  "topbar": {
+    "horario": "Hours: Mon to Fri, 8:00 AM – 5:00 PM"
+  },
+  "hero": {
+    "eyebrow": "International movers in Panama",
+    "h1_a": "We take your world",
+    "h1_b": "anywhere",
+    "lead": "Over 20 years planning, packing and shipping your belongings safely and professionally, anywhere in the world.",
+    "cta1": "Request a quote",
+    "cta2": "See services"
+  },
+  "stats": [
+    { "t": "Fully insured", "d": "Professional packing and coverage" },
+    { "t": "Global network", "d": "Agents on all 5 continents" },
+    { "t": "20+ years", "d": "Moving households from Panama" }
+  ],
+  "nosotros": {
+    "eyebrow": "About us",
+    "h2_a": "Your trusted partner for",
+    "h2_b": "international moves",
+    "p1": "We have been moving households for over two decades. We handle your belongings as if they were our own, from the first box to the last.",
+    "p2": "Our network of international partners and agents lets us clear customs and deliver to any destination across the five continents.",
+    "puntos": [
+      "One coordinator who knows your move by name.",
+      "Export-grade packing materials.",
+      "Full assistance with customs paperwork."
+    ],
+    "cta": "Talk to an advisor",
+    "badge_t": "Specialists",
+    "badge_d": "In customs clearance"
+  },
+  "servicios": {
+    "eyebrow": "What we do",
+    "h2": "Complete moving solutions",
+    "lead": "We handle the whole process so your move is not something you have to worry about.",
+    "items": [
+      { "t": "International moving", "d": "Door to door anywhere in the world: planning, packing, shipping and delivery at destination." },
+      { "t": "Office relocation", "d": "Corporate moves to international standard, executed with the least possible disruption to your operation." },
+      { "t": "Pet relocation", "d": "Full logistics for moving pets worldwide, including paperwork and customs assistance." },
+      { "t": "Secure storage", "d": "Warehouses with smoke detection and 24/7 surveillance, for short or long term." },
+      { "t": "Sea consolidation", "d": "Panama to Miami: share a container and cut the cost without cutting corners on safety." },
+      { "t": "Specialised insurance", "d": "Local and international coverage protecting your goods in handling, transit and storage." }
+    ]
+  },
+  "proceso": {
+    "h2": "How it works",
+    "lead": "From Panama to anywhere, with the same team alongside you from start to finish.",
+    "pasos": [
+      { "t": "Home survey", "d": "We inspect your belongings at home and hand over the paperwork." },
+      { "t": "Professional packing", "d": "Export-grade materials for maximum protection." },
+      { "t": "Customs clearance", "d": "Paperwork and international logistics, handled." },
+      { "t": "Delivery at destination", "d": "Safe arrival at your new home or office." }
+    ]
+  },
+  "contacto": {
+    "h2": "Get in touch",
+    "lead": "We are ready to make your next move a success. Ask for a quote with no obligation.",
+    "llamanos": "Call us",
+    "email": "Email",
+    "ubicacion": "Location",
+    "ubicacion_v": "Panama City, Panama",
+    "form_h": "Request a quote",
+    "f_nombre": "Full name",
+    "f_telefono": "Phone",
+    "f_email": "Email",
+    "f_fecha": "Approximate date",
+    "f_origen": "Origin city and country",
+    "f_destino": "Destination city and country",
+    "f_tipo": "Type of move",
+    "f_tipo_int": "International",
+    "f_tipo_loc": "Local",
+    "f_empaque": "Do you need packing service?",
+    "f_si": "Yes",
+    "f_no": "No",
+    "f_detalles": "Anything else we should know",
+    "f_enviar": "Send via WhatsApp",
+    "f_nota": "WhatsApp opens with your request already written. It reaches us instantly and you keep a copy on your phone."
+  },
+  "footer": {
+    "sobre": "Your partner for international moves from Panama to anywhere in the world. Safe, on time, professional.",
+    "enlaces": "Links",
+    "servicios": "Services",
+    "derechos": "All rights reserved."
+  }
+}

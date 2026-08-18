@@ -1,0 +1,69 @@
+# Publica la web en Netcup cuando se sube algo a `main`.
+#
+# Por que existe: el panel de Coolify de Netcup esta cerrado a internet a
+# proposito, asi que GitHub no puede llamarle a un webhook. Sin esto un push se
+# queda en GitHub sin llegar al servidor, y no falla nada visible: parece
+# publicado y no lo esta. Eso ya paso con remodelacionesjg, donde el fichero de
+# verificacion de Google llevaba dias commiteado sin llegar al servidor.
+#
+# Seguridad: la llave NO es la de administracion. Esta atada en el servidor a un
+# unico comando (`/usr/local/bin/coolify-deploy`) con `restrict`. No da shell,
+# no lee ficheros y no llega a Hetzner: lo maximo que consigue quien la robe es
+# reconstruir una de las webs de la lista blanca. El token de Coolify vive en el
+# servidor, no aqui.
+#
+# ⚠️ PENDIENTE antes de que esto funcione:
+#   1. Crear la app en Coolify (repo publico -> POST /api/v1/applications/public)
+#      y poner su UUID en APP_UUID.
+#   2. Anadir ese UUID a la lista blanca de /usr/local/bin/coolify-deploy.
+#   3. Apuntar el DNS de globalmovingpty.com a 159.195.234.239, DESPUES de
+#      verificar el sitio con --resolve: si se asigna el dominio en Coolify
+#      antes del corte, Let's Encrypt valida contra el servidor viejo, falla, y
+#      el sitio se queda con el certificado por defecto de Traefik.
+name: Desplegar en Netcup
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-globalmovingpty
+  cancel-in-progress: false
+
+env:
+  NETCUP_HOST: 159.195.234.239
+  APP_UUID: PENDIENTE_CREAR_APP_EN_COOLIFY
+  DOMINIO: globalmovingpty.com
+
+jobs:
+  desplegar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Preparar la llave
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "${{ secrets.NETCUP_DEPLOY_KEY }}" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -H "$NETCUP_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Desplegar y esperar el resultado
+        run: |
+          set -euo pipefail
+          ssh -T -i ~/.ssh/id_deploy -o BatchMode=yes -o ConnectTimeout=20 \
+            "root@${NETCUP_HOST}" "${APP_UUID}"
+
+      - name: Comprobar que la web responde
+        run: |
+          set -euo pipefail
+          # Traefik tarda unos segundos en registrar el contenedor nuevo; una
+          # sola comprobacion daba 502 con la web perfectamente sana.
+          for i in $(seq 1 12); do
+            COD=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "https://$DOMINIO/" || echo 000)
+            echo "[$i] https://$DOMINIO/ -> $COD"
+            [ "$COD" = "200" ] && exit 0
+            sleep 5
+          done
+          echo "La web sigue sin responder 200 un minuto despues de desplegar." >&2
+          exit 1

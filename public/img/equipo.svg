@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Foto pendiente">
+  <rect width="800" height="600" fill="#1e3a8a"/>
+  <g fill="none" stroke="#60a5fa" stroke-width="3" opacity=".55">
+    <rect x="298" y="238" width="204" height="150" rx="6"/>
+    <path d="M298 350l52-46 44 38 40-34 68 60"/><circle cx="452" cy="278" r="14"/>
+  </g>
+  <text x="400" y="440" fill="#bfdbfe" font-family="Inter,sans-serif" font-size="21"
+        text-anchor="middle">Foto pendiente</text>
+  <text x="400" y="470" fill="#7ea6ea" font-family="Inter,sans-serif" font-size="15"
+        text-anchor="middle">Equipo embalando · sustituir por foto real</text>
+</svg>

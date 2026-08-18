@@ -1,0 +1,67 @@
+@import 'tailwindcss';
+
+/*
+ * La paleta de la plantilla aprobada, movida al tema de Tailwind 4.
+ *
+ * En la plantilla original vivían en un `tailwind.config` inline junto al CDN
+ * de Tailwind, que no sirve para producción: el CDN compila las clases en el
+ * navegador del visitante en cada visita.
+ */
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-900: #1e3a8a;
+
+  --color-secondary: #facc15;
+}
+
+/*
+ * El hero NO se anima.
+ *
+ * En la plantilla todo lo importante nacía con `opacity: 0` y solo aparecía
+ * cuando el IntersectionObserver se disparaba. Con el JS lento, bloqueado o
+ * caído, el titular de la página no existía: se veía una foto azul y nada más.
+ * Y un H1 en opacity:0 es lo primero que rastrea Google.
+ *
+ * Ahora solo se anima lo que está POR DEBAJO del pliegue, donde el visitante ya
+ * ha visto de qué va la web y el movimiento aporta en vez de arriesgar.
+ */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Quien pide no animaciones, no las tiene. Y nadie se queda sin ver el texto. */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-up {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Si el JS no llega a ejecutarse, el contenido se ve igual. */
+.no-js .fade-in-up {
+  opacity: 1;
+  transform: none;
+}
+
+.hero-pattern {
+  background-color: #1e3a8a;
+  background-image:
+    linear-gradient(rgba(30, 58, 138, 0.82), rgba(30, 58, 138, 0.92)),
+    var(--hero-img, none);
+  background-size: cover;
+  background-position: center;
+}
