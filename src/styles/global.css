@@ -61,7 +61,24 @@
   background-color: #1e3a8a;
   background-image:
     linear-gradient(rgba(30, 58, 138, 0.82), rgba(30, 58, 138, 0.92)),
-    var(--hero-img, none);
+    var(--hero-img, url('/img/hero-contenedores.jpg'));
+  background-size: cover;
+  background-position: center;
+}
+
+/*
+ * El bloque del proceso, con la bodega detras.
+ *
+ * El velo va al 88-94% a proposito: encima hay texto blanco y los numeros de
+ * los pasos, y la foto es de contraste alto. Con menos velo el texto se lee
+ * distinto segun donde caiga la imagen al recortarse por `cover`, que cambia
+ * con el ancho de la ventana.
+ */
+.proceso-fondo {
+  background-color: #1e3a8a;
+  background-image:
+    linear-gradient(rgba(30, 58, 138, 0.94), rgba(23, 37, 84, 0.88)),
+    url('/img/bodega.jpg');
   background-size: cover;
   background-position: center;
 }

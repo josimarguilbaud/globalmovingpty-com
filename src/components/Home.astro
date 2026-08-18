@@ -151,8 +151,14 @@ const waSaludo = lang === 'es'
     <div class="flex flex-col lg:flex-row items-center gap-16">
       <div class="w-full lg:w-1/2 relative fade-in-up">
         <div class="relative rounded-2xl overflow-hidden shadow-2xl bg-primary-900 aspect-4/3">
-          {/* PENDIENTE: foto real del equipo embalando. Ver README, «Fotos». */}
-          <img src="/img/equipo.svg" alt={t.nosotros.badge_d} width="800" height="600"
+          {/*
+            Foto de archivo, no de la empresa: se etiqueta asi en el README para
+            que se reemplace en cuanto haya una propia. El `alt` describe lo que
+            se ve, no lo que quisieramos que se viera.
+          */}
+          <img src="/img/carga-maritima.jpg"
+               alt="Buque portacontenedores siendo cargado con gruas en puerto"
+               width="1200" height="800"
                loading="lazy" decoding="async" class="w-full h-full object-cover" />
         </div>
         <div class="absolute -bottom-8 -right-8 bg-white p-6 rounded-xl shadow-xl hidden md:block">
@@ -218,7 +224,7 @@ const waSaludo = lang === 'es'
 </section>
 
 {/* ── Proceso ────────────────────────────────────────────────── */}
-<section class="py-20 bg-primary-900 text-white relative overflow-hidden">
+<section class="py-20 proceso-fondo text-white relative overflow-hidden">
   <div class="container mx-auto px-4 relative z-10">
     <div class="text-center mb-16 fade-in-up">
       <h2 class="text-3xl md:text-4xl font-bold mb-4">{t.proceso.h2}</h2>

@@ -20,7 +20,7 @@ que no podía salir a producción tal cual:
 | `<h1>` con `opacity:0` hasta que corriera el JS | Hero visible siempre. Solo se anima lo de bajo el pliegue |
 | Tailwind por CDN (`cdn.tailwindcss.com`) | Compilado. El CDN compila en el navegador de cada visitante |
 | Font Awesome en su versión **JS** (~500 KB para 15 iconos) | SVG inline, ~200 bytes cada uno, sin dependencia externa |
-| Fotos de Unsplash | Marcador que dice «foto pendiente». Ver abajo |
+| Fotos de Unsplash | Tres, comprimidas y recortadas (461 KB en total). Ver abajo |
 | Formulario con `action="#"` y un `setTimeout` que fingía enviar | Abre WhatsApp con la solicitud escrita |
 | Sin schema, sin hreflang, sin meta description | `MovingCompany` + `ItemList` de servicios, hreflang es/en, description |
 | Solo español | Español (raíz) e inglés (`/en/`) |
@@ -31,11 +31,12 @@ igual que este. Aquí el contenido se ve aunque el JavaScript no llegue nunca.
 
 ## Lo que falta y solo puede aportar el dueño
 
-1. **Fotos reales.** `public/img/equipo.svg` es un marcador que dice «foto
-   pendiente» a propósito: prefiero que se note que falta a poner una foto de
-   banco de imágenes que no es de la empresa. Hacen falta al menos: equipo
-   embalando, una bodega, y un fondo para el hero (hoy es azul plano, y la
-   variable `--hero-img` de `global.css` está lista para recibirlo).
+1. **Fotos reales.** Las tres que hay (`hero-contenedores.jpg`, `carga-maritima.jpg`,
+   `bodega.jpg`) son de Unsplash, no de la empresa: puerto, buque y bodega, que
+   ilustran el sector sin fingir que son las instalaciones propias. Por eso no
+   sale ninguna con personas — una foto de «nuestro equipo» que no es el equipo
+   es lo unico que aqui seria mentira. En cuanto haya fotos propias del personal
+   embalando, entran en el hueco de Nosotros y esta nota desaparece.
 2. **Logo.** Los dos que hay en la web actual son PNG grises de baja resolución
    (`logo_global1_black.png`, `logo_global_mundo1.png`). Ahora mismo la marca se
    dibuja con el icono de globo. Si existe una versión vectorial, entra aquí.
