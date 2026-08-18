@@ -12,14 +12,15 @@
 # reconstruir una de las webs de la lista blanca. El token de Coolify vive en el
 # servidor, no aqui.
 #
-# ⚠️ PENDIENTE antes de que esto funcione:
-#   1. Crear la app en Coolify (repo publico -> POST /api/v1/applications/public)
-#      y poner su UUID en APP_UUID.
-#   2. Anadir ese UUID a la lista blanca de /usr/local/bin/coolify-deploy.
-#   3. Apuntar el DNS de globalmovingpty.com a 159.195.234.239, DESPUES de
-#      verificar el sitio con --resolve: si se asigna el dominio en Coolify
-#      antes del corte, Let's Encrypt valida contra el servidor viejo, falla, y
-#      el sitio se queda con el certificado por defecto de Traefik.
+# ⚠️ PENDIENTE: el DNS de globalmovingpty.com sigue apuntando al hosting viejo
+# (67.223.118.159, WordPress). Hasta que se corte, el paso final de este workflow
+# comprobara la web VIEJA y dara 200 sin haber publicado nada nuevo.
+#
+# Orden del corte, que importa: verificar el sitio con `curl --resolve` contra
+# 159.195.234.239, DESPUES cambiar el registro A, y DESPUES redesplegar para que
+# Let's Encrypt reintente. Si se asigna el dominio en Coolify antes del corte, la
+# validacion llega al servidor viejo, falla, y el sitio se queda con el
+# certificado por defecto de Traefik. Eso paso con sanblasfull el 14/08.
 name: Desplegar en Netcup
 
 on:
@@ -33,7 +34,7 @@ concurrency:
 
 env:
   NETCUP_HOST: 159.195.234.239
-  APP_UUID: PENDIENTE_CREAR_APP_EN_COOLIFY
+  APP_UUID: z1bcopqo8evd8vvfbeonhcpt
   DOMINIO: globalmovingpty.com
 
 jobs:
@@ -57,13 +58,21 @@ jobs:
       - name: Comprobar que la web responde
         run: |
           set -euo pipefail
+          # --resolve fuerza la conexion a Netcup en vez de seguir el DNS.
+          #
+          # Mientras el dominio siga apuntando al WordPress viejo, un curl normal
+          # devolveria 200 de la web ANTIGUA y este paso pasaria en verde sin
+          # haber publicado nada. Con --resolve se comprueba el contenedor que
+          # acaba de construirse, que es lo unico que este workflow controla.
+          # Cuando se corte el DNS la comprobacion sigue siendo valida.
+          #
           # Traefik tarda unos segundos en registrar el contenedor nuevo; una
           # sola comprobacion daba 502 con la web perfectamente sana.
           for i in $(seq 1 12); do
-            COD=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "https://$DOMINIO/" || echo 000)
-            echo "[$i] https://$DOMINIO/ -> $COD"
+            COD=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20                   --resolve "$DOMINIO:443:$NETCUP_HOST" --resolve "$DOMINIO:80:$NETCUP_HOST"                   -k "https://$DOMINIO/" || echo 000)
+            echo "[$i] $DOMINIO (via $NETCUP_HOST) -> $COD"
             [ "$COD" = "200" ] && exit 0
             sleep 5
           done
-          echo "La web sigue sin responder 200 un minuto despues de desplegar." >&2
+          echo "El contenedor sigue sin responder 200 un minuto despues de desplegar." >&2
           exit 1
