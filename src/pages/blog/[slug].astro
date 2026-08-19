@@ -1,0 +1,22 @@
+---
+import BlogPostPage from '../../components/BlogPostPage.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const todas = await getCollection('blog', (e) => e.id.startsWith('es/'));
+  // Orden por fecha: `getCollection` devuelve el orden del sistema de ficheros,
+  // que cambia entre Windows y Alpine. Aqui solo afecta a que 3 articulos
+  // salgan como «relacionados», pero un orden no determinista hace que el
+  // contenido de una pagina cambie sin que nadie tocara nada.
+  const ordenadas = todas.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  return ordenadas.map((entrada) => ({
+    params: { slug: entrada.id.split('/').slice(1).join('/') },
+    props: {
+      entrada,
+      relacionados: ordenadas.filter((o) => o.id !== entrada.id).slice(0, 2),
+    },
+  }));
+}
+const { entrada, relacionados } = Astro.props;
+---
+<BlogPostPage lang="es" entrada={entrada} relacionados={relacionados} />

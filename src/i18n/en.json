@@ -10,7 +10,8 @@
     "contacto": "Contact",
     "cotizar": "Get a quote",
     "verTodos": "See all services",
-    "menu": "Open menu"
+    "menu": "Open menu",
+    "blog": "Blog"
   },
   "topbar": {
     "horario": "Hours: Mon to Fri, 8:00 AM – 5:00 PM"
@@ -125,5 +126,18 @@
     "otros": "Other services",
     "migaInicio": "Home",
     "verFicha": "See the service"
+  },
+  "blog": {
+    "marca": "Global Moving",
+    "eyebrow": "Guides and paperwork",
+    "h1": "How a move out of Panama actually works",
+    "metaTitle": "International moving guides from Panama | Global Moving",
+    "metaDescription": "Paperwork, timings and practical decisions when moving from Panama: voltage, customs, building permits, what cannot travel and how long each route takes.",
+    "lead": "What clients ask before booking, answered with the detail you need to decide.",
+    "lectura": "{n} min read",
+    "leer": "Read",
+    "volver": "All articles",
+    "masArticulos": "Keep reading",
+    "servicioRelacionado": "The service it covers"
   }
 }

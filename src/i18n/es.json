@@ -10,7 +10,8 @@
     "contacto": "Contacto",
     "cotizar": "Cotizar",
     "verTodos": "Ver todos los servicios",
-    "menu": "Abrir menú"
+    "menu": "Abrir menú",
+    "blog": "Blog"
   },
   "topbar": {
     "horario": "Horario: Lun a Vie, 8:00 AM – 5:00 PM"
@@ -125,5 +126,18 @@
     "otros": "Otros servicios",
     "migaInicio": "Inicio",
     "verFicha": "Ver el servicio"
+  },
+  "blog": {
+    "marca": "Global Moving",
+    "eyebrow": "Guías y trámites",
+    "h1": "Cómo se hace una mudanza desde Panamá",
+    "metaTitle": "Guías de mudanza internacional desde Panamá | Global Moving",
+    "metaDescription": "Trámites, plazos y decisiones prácticas de una mudanza desde Panamá: voltaje, aduana, permisos de edificio, qué no puede viajar y cuánto tarda cada ruta.",
+    "lead": "Lo que preguntan los clientes antes de contratar, respondido con el detalle que hace falta para decidir.",
+    "lectura": "{n} min de lectura",
+    "leer": "Leer",
+    "volver": "Todos los artículos",
+    "masArticulos": "Seguir leyendo",
+    "servicioRelacionado": "El servicio del que trata"
   }
 }

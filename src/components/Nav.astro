@@ -112,6 +112,7 @@ const anclaPortada = (ancla: string) => (enPortada ? `#${ancla}` : `${inicio}#${
           </div>
         </div>
 
+        <a href={langUrl(lang, '/blog')} class="text-gray-600 hover:text-primary-600 font-medium transition">{t.nav.blog}</a>
         <a href={anclaPortada('contacto')} class="text-gray-600 hover:text-primary-600 font-medium transition">{t.nav.contacto}</a>
         <a href={waLink(waSaludo)} target="_blank" rel="noopener"
            class="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-full font-medium transition shadow-md flex items-center">
@@ -154,6 +155,7 @@ const anclaPortada = (ancla: string) => (enPortada ? `#${ancla}` : `${inicio}#${
           </li>
         </ul>
       </details>
+      <a href={langUrl(lang, '/blog')} class="text-gray-600 font-medium">{t.nav.blog}</a>
       <a href={anclaPortada('contacto')} class="text-gray-600 font-medium">{t.nav.contacto}</a>
       <div class="pt-2 border-t border-gray-100 flex flex-col gap-2">
         <a href={`tel:${EMPRESA.movilRaw}`} class="flex items-center text-gray-600">

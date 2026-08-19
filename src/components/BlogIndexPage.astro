@@ -1,0 +1,97 @@
+---
+/**
+ * El índice del blog.
+ *
+ * ⚠️ `getCollection` NO ordena: devuelve las entradas en el orden del sistema
+ * de ficheros. Sin el `sort` de abajo, el orden cambiaría según en qué máquina
+ * se compile (Windows en local, Alpine en el contenedor), y el artículo
+ * «último» sería distinto en cada despliegue. Está documentado en el repo de
+ * San Blas porque ya mordió una vez.
+ */
+import Layout from '../layouts/Layout.astro';
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import Icon from './Icon.astro';
+import { langUrl, SITE_URL, type Locale } from '../lib/site';
+import { useDict } from '../i18n';
+import { breadcrumbJsonLd } from '../lib/schema';
+import { getCollection } from 'astro:content';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const t = useDict(lang);
+
+const entradas = (await getCollection('blog', (e) => e.id.startsWith(`${lang}/`)))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const slugDe = (e: (typeof entradas)[number]) => e.id.split('/').slice(1).join('/');
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Blog',
+      name: t.blog.h1,
+      description: t.blog.metaDescription,
+      inLanguage: lang,
+      url: `${SITE_URL}${langUrl(lang, '/blog')}`,
+      blogPost: entradas.map((e) => ({
+        '@type': 'BlogPosting',
+        headline: e.data.title,
+        description: e.data.description,
+        datePublished: e.data.date.toISOString().slice(0, 10),
+        url: `${SITE_URL}${langUrl(lang, `/blog/${slugDe(e)}`)}`,
+      })),
+    },
+    breadcrumbJsonLd(lang, [
+      { nombre: t.serviciosPage.migaInicio, path: '/' },
+      { nombre: t.nav.blog, path: '/blog' },
+    ]),
+  ],
+};
+---
+<Layout lang={lang} title={t.blog.metaTitle} description={t.blog.metaDescription}
+        path="/blog" jsonld={jsonld}>
+  <Nav lang={lang} />
+
+  <header class="bg-primary-900 text-white py-16 md:py-20">
+    <div class="container mx-auto px-4 max-w-4xl">
+      <nav aria-label="Breadcrumb" class="mb-6 text-sm text-primary-200">
+        <ol class="flex flex-wrap items-center gap-2 list-none p-0">
+          <li><a href={langUrl(lang, '/')} class="hover:text-white transition">{t.serviciosPage.migaInicio}</a></li>
+          <li aria-hidden="true">/</li>
+          <li class="text-white font-medium" aria-current="page">{t.nav.blog}</li>
+        </ol>
+      </nav>
+      <div class="inline-block py-1 px-3 rounded-full bg-primary-700 text-primary-100 text-sm font-semibold tracking-wider mb-4">
+        {t.blog.eyebrow}
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold leading-tight mb-4">{t.blog.h1}</h1>
+      <p class="text-lg text-gray-200 leading-relaxed">{t.blog.lead}</p>
+    </div>
+  </header>
+
+  <section class="py-16 md:py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {entradas.map((e) => (
+          <article class="bg-white border border-gray-100 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 group flex">
+            <a href={langUrl(lang, `/blog/${slugDe(e)}`)} class="p-8 flex flex-col h-full">
+              <div class="flex items-center gap-3 mb-4 text-xs">
+                <span class="bg-primary-50 text-primary-700 py-1 px-3 rounded-full font-semibold">{e.data.category}</span>
+                <span class="text-gray-500">{t.blog.lectura.replace('{n}', String(e.data.minutes))}</span>
+              </div>
+              <h2 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary-700 transition-colors">{e.data.title}</h2>
+              <p class="text-gray-600 leading-relaxed mb-5">{e.data.description}</p>
+              <span class="mt-auto inline-flex items-center gap-2 text-primary-600 font-semibold text-sm">
+                {t.blog.leer} <Icon name="arrow" class="w-4 h-4" />
+              </span>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Footer lang={lang} />
+</Layout>
