@@ -1,0 +1,127 @@
+---
+/**
+ * Pie de página.
+ *
+ * Estaba dentro de `Home.astro` y listaba cinco servicios como texto plano,
+ * sin enlace. Ocupaban sitio y no llevaban a ninguna parte, que es la
+ * definición de relleno.
+ *
+ * Ahora lleva **NAP visible** (nombre, teléfono, correo, horario y ciudad).
+ * Antes esa señal solo existía dentro del JSON-LD, y Google la quiere también
+ * en texto que el visitante vea: un dato que solo está en el marcado se parece
+ * mucho a un dato que no se puede comprobar.
+ *
+ * ⚠️ **Falta la calle.** `EMPRESA` no tiene `direccion` porque nadie nos la ha
+ * dado, y una dirección inventada es peor que ninguna: rompe la coincidencia
+ * con la ficha de Google Business, que es justo la señal que se busca. El
+ * bloque se pinta solo si el dato existe. En cuanto llegue, se añade a
+ * `site.ts` y aparece aquí y en el JSON-LD a la vez.
+ *
+ * Los encabezados del pie son `<h3>`, no `<h2>`: «Enlaces» y «Servicios» no
+ * son secciones de contenido de la página y competían en la jerarquía con los
+ * titulares reales.
+ */
+import Icon from './Icon.astro';
+import { EMPRESA, langUrl, waLink, type Locale } from '../lib/site';
+import { useDict, useServicios } from '../i18n';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const t = useDict(lang);
+const servicios = useServicios(lang);
+
+const inicio = langUrl(lang, '/');
+const enPortada = Astro.url.pathname === inicio;
+const anclaPortada = (ancla: string) => (enPortada ? `#${ancla}` : `${inicio}#${ancla}`);
+
+const waSaludo = lang === 'es'
+  ? 'Hola, quiero cotizar una mudanza internacional desde Panamá.'
+  : 'Hi, I would like a quote for an international move from Panama.';
+
+// `direccion` todavía no existe en EMPRESA. Se lee así para que el día que se
+// añada el bloque aparezca sin tocar este componente.
+const direccion = (EMPRESA as { direccion?: string }).direccion;
+---
+
+<footer class="bg-gray-900 text-gray-300 py-12">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+
+      <div>
+        <div class="flex items-center space-x-2 mb-6">
+          <div class="bg-primary-600 text-white p-2 rounded"><Icon name="globe" class="w-5 h-5" /></div>
+          <div>
+            <span class="block text-xl font-bold text-white leading-tight">{EMPRESA.nombreCorto}</span>
+            <span class="text-xs text-gray-400 uppercase tracking-wider font-semibold">Solutions</span>
+          </div>
+        </div>
+        <p class="text-sm text-gray-400 leading-relaxed">{t.footer.sobre}</p>
+      </div>
+
+      {/* NAP en texto visible, no solo en el JSON-LD. */}
+      <div>
+        <h3 class="text-white font-bold mb-6 uppercase tracking-wider text-sm">{t.footer.contacto}</h3>
+        <address class="not-italic space-y-3 text-sm">
+          <p class="text-gray-400 font-semibold text-white">{EMPRESA.nombre} PTY</p>
+          {direccion && <p class="text-gray-400">{direccion}</p>}
+          <p class="text-gray-400 flex items-start gap-2">
+            <Icon name="pin" class="w-4 h-4 mt-0.5 shrink-0 text-primary-400" />
+            {EMPRESA.ciudad}, {lang === 'es' ? 'Panamá' : 'Panama'}
+          </p>
+          <p>
+            <a href={`tel:${EMPRESA.telefonoRaw}`} class="text-gray-400 hover:text-primary-400 transition flex items-center gap-2">
+              <Icon name="phone" class="w-4 h-4 shrink-0 text-primary-400" /> {EMPRESA.telefono}
+            </a>
+          </p>
+          <p>
+            <a href={`tel:${EMPRESA.movilRaw}`} class="text-gray-400 hover:text-primary-400 transition flex items-center gap-2">
+              <Icon name="whatsapp" class="w-4 h-4 shrink-0 text-primary-400" filled /> {EMPRESA.movil}
+            </a>
+          </p>
+          <p>
+            <a href={`mailto:${EMPRESA.email}`} class="text-gray-400 hover:text-primary-400 transition flex items-center gap-2 break-all">
+              <Icon name="mail" class="w-4 h-4 shrink-0 text-primary-400" /> {EMPRESA.email}
+            </a>
+          </p>
+          <p class="text-gray-400 flex items-start gap-2">
+            <Icon name="clock" class="w-4 h-4 mt-0.5 shrink-0 text-primary-400" /> {t.topbar.horario}
+          </p>
+        </address>
+      </div>
+
+      <div>
+        <h3 class="text-white font-bold mb-6 uppercase tracking-wider text-sm">{t.footer.enlaces}</h3>
+        <ul class="space-y-3 text-sm list-none p-0">
+          <li><a href={inicio} class="hover:text-primary-400 transition">{t.nav.inicio}</a></li>
+          <li><a href={anclaPortada('nosotros')} class="hover:text-primary-400 transition">{t.nav.nosotros}</a></li>
+          <li><a href={langUrl(lang, '/servicios')} class="hover:text-primary-400 transition">{t.nav.servicios}</a></li>
+          <li><a href={anclaPortada('contacto')} class="hover:text-primary-400 transition">{t.nav.contacto}</a></li>
+        </ul>
+      </div>
+
+      {/* Los nueve, enlazados. Antes eran cinco nombres sin enlace. */}
+      <div>
+        <h3 class="text-white font-bold mb-6 uppercase tracking-wider text-sm">{t.footer.servicios}</h3>
+        <ul class="space-y-3 text-sm list-none p-0">
+          {servicios.map((s) => (
+            <li>
+              <a href={langUrl(lang, `/servicios/${s.slug}`)} class="text-gray-400 hover:text-primary-400 transition">
+                {s.nav}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-gray-800 pt-8 text-sm text-gray-500">
+      <p>&copy; {new Date().getFullYear()} {EMPRESA.nombre} PTY. {t.footer.derechos}</p>
+    </div>
+  </div>
+</footer>
+
+<a href={waLink(waSaludo)} target="_blank" rel="noopener"
+   class="fixed bottom-6 right-6 bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl hover:bg-green-700 hover:scale-110 transition-all z-50"
+   aria-label="WhatsApp">
+  <Icon name="whatsapp" class="w-7 h-7" filled />
+</a>

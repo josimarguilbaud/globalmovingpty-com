@@ -1,0 +1,191 @@
+---
+/**
+ * Barra superior + cabecera, con el desplegable de servicios.
+ *
+ * Vivía dentro de `Home.astro`. Se sacó aquí cuando aparecieron las páginas de
+ * servicio: si no, cada página interna habría duplicado la cabecera, y el día
+ * que cambie un teléfono habría que acordarse de todos los sitios.
+ *
+ * Sobre el desplegable, dos decisiones que no son de estilo:
+ *
+ * 1. **El «Servicios» de la barra es un enlace real a `/servicios`**, no un
+ *    botón que solo abre el menú. Sin JS, con lector de pantalla o si alguien
+ *    lo abre en una pestaña nueva, sigue llevando a algún sitio. Un menú cuyo
+ *    padre no es navegable deja el índice inalcanzable para quien no puede o
+ *    no quiere desplegar.
+ * 2. **Se abre por hover Y por foco de teclado**, y el hover está en CSS puro
+ *    (`group-hover`). Si el JS no llega, el desplegable sigue funcionando con
+ *    el ratón; el JS solo añade cerrar con Escape.
+ */
+import Icon from './Icon.astro';
+import { EMPRESA, langUrl, waLink, type Locale } from '../lib/site';
+import { useDict, useServicios } from '../i18n';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const t = useDict(lang);
+const otro: Locale = lang === 'es' ? 'en' : 'es';
+const servicios = useServicios(lang);
+
+const waSaludo = lang === 'es'
+  ? 'Hola, quiero cotizar una mudanza internacional desde Panamá.'
+  : 'Hi, I would like a quote for an international move from Panama.';
+
+// La ruta actual, para no enlazar a la portada con ancla desde una interna:
+// `#servicios` desde /servicios/almacenaje no lleva a ninguna parte.
+const enPortada = Astro.url.pathname === langUrl(lang, '/') ;
+const inicio = langUrl(lang, '/');
+const anclaPortada = (ancla: string) => (enPortada ? `#${ancla}` : `${inicio}#${ancla}`);
+---
+
+{/* ── Barra superior ─────────────────────────────────────────── */}
+<div class="bg-primary-900 text-white text-sm py-2 px-4 hidden md:block">
+  <div class="container mx-auto flex justify-between items-center">
+    <div class="flex space-x-6">
+      <a href={`mailto:${EMPRESA.email}`} class="flex items-center hover:text-secondary transition">
+        <Icon name="mail" class="w-4 h-4 mr-2" /> {EMPRESA.email}
+      </a>
+      <a href={`tel:${EMPRESA.telefonoRaw}`} class="flex items-center hover:text-secondary transition">
+        <Icon name="phone" class="w-4 h-4 mr-2" /> {EMPRESA.telefono}
+      </a>
+    </div>
+    <div class="flex items-center gap-5">
+      <span>{t.topbar.horario}</span>
+      <a href={langUrl(otro, '/')} class="font-semibold hover:text-secondary transition" hreflang={otro}>
+        {otro.toUpperCase()}
+      </a>
+    </div>
+  </div>
+</div>
+
+{/* ── Cabecera ───────────────────────────────────────────────── */}
+<header class="bg-white shadow-sm sticky top-0 z-50" id="main-header">
+  <div class="container mx-auto px-4 py-4">
+    <div class="flex justify-between items-center">
+      <a href={inicio} class="flex items-center space-x-2">
+        <div class="bg-primary-600 text-white p-2 rounded-lg">
+          <Icon name="globe" class="w-6 h-6" />
+        </div>
+        <div>
+          <span class="block text-xl font-bold text-primary-900 leading-tight">{EMPRESA.nombreCorto}</span>
+          <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold">{EMPRESA.bajada}</span>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex space-x-8 items-center">
+        <a href={inicio} class="text-gray-600 hover:text-primary-600 font-medium transition">{t.nav.inicio}</a>
+        <a href={anclaPortada('nosotros')} class="text-gray-600 hover:text-primary-600 font-medium transition">{t.nav.nosotros}</a>
+
+        {/* Desplegable. `group` + `focus-within` = abre con ratón y con teclado. */}
+        <div class="relative group" data-dropdown>
+          <a href={langUrl(lang, '/servicios')}
+             class="text-gray-600 hover:text-primary-600 font-medium transition flex items-center gap-1"
+             aria-haspopup="true" aria-expanded="false" data-dropdown-trigger>
+            {t.nav.servicios}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 class="w-4 h-4 transition-transform group-hover:rotate-180 group-focus-within:rotate-180"
+                 aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </a>
+          <div class="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-72
+                      opacity-0 invisible group-hover:opacity-100 group-hover:visible
+                      group-focus-within:opacity-100 group-focus-within:visible
+                      transition-all duration-150"
+               data-dropdown-menu>
+            <ul class="bg-white rounded-xl shadow-2xl border border-gray-100 py-2 list-none m-0">
+              {servicios.map((s) => (
+                <li>
+                  <a href={langUrl(lang, `/servicios/${s.slug}`)}
+                     class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:bg-primary-50 hover:text-primary-700 transition">
+                    <Icon name={s.icono} class="w-4 h-4 shrink-0 text-primary-600" />
+                    {s.nav}
+                  </a>
+                </li>
+              ))}
+              <li class="border-t border-gray-100 mt-2 pt-2">
+                <a href={langUrl(lang, '/servicios')}
+                   class="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-primary-700 hover:bg-primary-50 transition">
+                  {t.nav.verTodos} <Icon name="arrow" class="w-4 h-4" />
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <a href={anclaPortada('contacto')} class="text-gray-600 hover:text-primary-600 font-medium transition">{t.nav.contacto}</a>
+        <a href={waLink(waSaludo)} target="_blank" rel="noopener"
+           class="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-full font-medium transition shadow-md flex items-center">
+          <Icon name="whatsapp" class="w-5 h-5 mr-2" filled /> {t.nav.cotizar}
+        </a>
+      </nav>
+
+      <button id="mobile-menu-btn" class="md:hidden text-gray-600 p-2" aria-expanded="false"
+              aria-controls="mobile-menu" aria-label={t.nav.menu}>
+        <Icon name="menu" class="w-7 h-7" />
+      </button>
+    </div>
+  </div>
+
+  {/* En móvil el desplegable sería una trampa táctil: aquí los servicios se
+      listan siempre, dentro de un <details> que el usuario abre si quiere. */}
+  <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-100 hidden">
+    <div class="container mx-auto px-4 py-4 flex flex-col space-y-4">
+      <a href={inicio} class="text-gray-600 font-medium">{t.nav.inicio}</a>
+      <a href={anclaPortada('nosotros')} class="text-gray-600 font-medium">{t.nav.nosotros}</a>
+      <details class="group">
+        <summary class="text-gray-600 font-medium cursor-pointer list-none flex items-center justify-between">
+          {t.nav.servicios}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round"
+               class="w-4 h-4 transition-transform group-open:rotate-180" aria-hidden="true">
+            <path d="m6 9 6 6 6-6"/>
+          </svg>
+        </summary>
+        <ul class="mt-3 ml-1 pl-3 border-l-2 border-primary-100 space-y-3 list-none">
+          {servicios.map((s) => (
+            <li>
+              <a href={langUrl(lang, `/servicios/${s.slug}`)} class="text-sm text-gray-600 block">{s.nav}</a>
+            </li>
+          ))}
+          <li>
+            <a href={langUrl(lang, '/servicios')} class="text-sm font-semibold text-primary-700 block">
+              {t.nav.verTodos}
+            </a>
+          </li>
+        </ul>
+      </details>
+      <a href={anclaPortada('contacto')} class="text-gray-600 font-medium">{t.nav.contacto}</a>
+      <div class="pt-2 border-t border-gray-100 flex flex-col gap-2">
+        <a href={`tel:${EMPRESA.movilRaw}`} class="flex items-center text-gray-600">
+          <Icon name="phone" class="w-4 h-4 mr-2 text-primary-600" /> {EMPRESA.movil}
+        </a>
+        <a href={langUrl(otro, '/')} class="text-gray-600 font-semibold" hreflang={otro}>{otro.toUpperCase()}</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Menú móvil.
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  btn?.addEventListener('click', () => {
+    const abierto = menu?.classList.toggle('hidden') === false;
+    btn.setAttribute('aria-expanded', String(abierto));
+  });
+  menu?.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => menu.classList.add('hidden')),
+  );
+
+  // El desplegable abre y cierra por CSS (hover y focus-within). Lo único que
+  // el CSS no puede hacer es cerrarse con Escape, que es lo que se espera de
+  // un menú abierto con teclado: sin esto, quien lo abre tabulando queda
+  // atrapado dentro hasta recorrer los nueve enlaces.
+  document.querySelectorAll('[data-dropdown]').forEach((d) => {
+    d.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key !== 'Escape') return;
+      (d.querySelector('[data-dropdown-trigger]') as HTMLElement | null)?.focus();
+      (document.activeElement as HTMLElement | null)?.blur();
+    });
+  });
+</script>

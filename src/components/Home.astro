@@ -1,27 +1,15 @@
 ---
 import Icon from './Icon.astro';
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
 import { EMPRESA, langUrl, waLink, type Locale } from '../lib/site';
-import { useDict } from '../i18n';
+import { useDict, useServicios } from '../i18n';
 
 interface Props { lang: Locale }
 const { lang } = Astro.props;
 const t = useDict(lang);
-const otro: Locale = lang === 'es' ? 'en' : 'es';
+const servicios = useServicios(lang);
 
-// Un icono por servicio, en el mismo orden que `servicios.items` del diccionario.
-// Si se anade un servicio y falta su icono aqui, `Icon` pintaria un SVG vacio sin
-// avisar; por eso el fallback a 'box' en vez de `undefined`.
-const iconosServicio = [
-  'globe',     // mudanzas internacionales
-  'truck',     // locales y nacionales
-  'building',  // oficinas
-  'paw',       // mascotas
-  'warehouse', // almacenaje
-  'ship',      // consolidacion maritima
-  'file',      // gestion aduanera
-  'box',       // embalaje
-  'shield',    // seguros
-];
 const iconosStat = ['shield', 'globe', 'clock'];
 
 const waSaludo = lang === 'es'
@@ -29,72 +17,8 @@ const waSaludo = lang === 'es'
   : 'Hi, I would like a quote for an international move from Panama.';
 ---
 
-{/* ── Barra superior ─────────────────────────────────────────── */}
-<div class="bg-primary-900 text-white text-sm py-2 px-4 hidden md:block">
-  <div class="container mx-auto flex justify-between items-center">
-    <div class="flex space-x-6">
-      <a href={`mailto:${EMPRESA.email}`} class="flex items-center hover:text-secondary transition">
-        <Icon name="mail" class="w-4 h-4 mr-2" /> {EMPRESA.email}
-      </a>
-      <a href={`tel:${EMPRESA.telefonoRaw}`} class="flex items-center hover:text-secondary transition">
-        <Icon name="phone" class="w-4 h-4 mr-2" /> {EMPRESA.telefono}
-      </a>
-    </div>
-    <div class="flex items-center gap-5">
-      <span>{t.topbar.horario}</span>
-      <a href={langUrl(otro, '/')} class="font-semibold hover:text-secondary transition" hreflang={otro}>
-        {otro.toUpperCase()}
-      </a>
-    </div>
-  </div>
-</div>
+<Nav lang={lang} />
 
-{/* ── Cabecera ───────────────────────────────────────────────── */}
-<header class="bg-white shadow-sm sticky top-0 z-50" id="main-header">
-  <div class="container mx-auto px-4 py-4">
-    <div class="flex justify-between items-center">
-      <a href={langUrl(lang, '/')} class="flex items-center space-x-2">
-        <div class="bg-primary-600 text-white p-2 rounded-lg">
-          <Icon name="globe" class="w-6 h-6" />
-        </div>
-        <div>
-          <span class="block text-xl font-bold text-primary-900 leading-tight">{EMPRESA.nombreCorto}</span>
-          <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold">{EMPRESA.bajada}</span>
-        </div>
-      </a>
-
-      <nav class="hidden md:flex space-x-8 items-center">
-        <a href="#inicio" class="text-gray-600 hover:text-primary-600 font-medium transition">{t.nav.inicio}</a>
-        <a href="#nosotros" class="text-gray-600 hover:text-primary-600 font-medium transition">{t.nav.nosotros}</a>
-        <a href="#servicios" class="text-gray-600 hover:text-primary-600 font-medium transition">{t.nav.servicios}</a>
-        <a href="#contacto" class="text-gray-600 hover:text-primary-600 font-medium transition">{t.nav.contacto}</a>
-        <a href={waLink(waSaludo)} target="_blank" rel="noopener"
-           class="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-full font-medium transition shadow-md flex items-center">
-          <Icon name="whatsapp" class="w-5 h-5 mr-2" filled /> {t.nav.cotizar}
-        </a>
-      </nav>
-
-      <button id="mobile-menu-btn" class="md:hidden text-gray-600 p-2" aria-expanded="false" aria-controls="mobile-menu"
-              aria-label={t.nav.inicio}>
-        <Icon name="menu" class="w-7 h-7" />
-      </button>
-    </div>
-  </div>
-
-  <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-100 hidden">
-    <div class="container mx-auto px-4 py-4 flex flex-col space-y-4">
-      <a href="#inicio" class="text-gray-600 font-medium">{t.nav.inicio}</a>
-      <a href="#nosotros" class="text-gray-600 font-medium">{t.nav.nosotros}</a>
-      <a href="#servicios" class="text-gray-600 font-medium">{t.nav.servicios}</a>
-      <a href="#contacto" class="text-gray-600 font-medium">{t.nav.contacto}</a>
-      <div class="pt-2 border-t border-gray-100 flex flex-col gap-2">
-        <a href={`tel:${EMPRESA.movilRaw}`} class="flex items-center text-gray-600">
-          <Icon name="phone" class="w-4 h-4 mr-2 text-primary-600" /> {EMPRESA.movil}
-        </a>
-        <a href={langUrl(otro, '/')} class="text-gray-600 font-semibold" hreflang={otro}>{otro.toUpperCase()}</a>
-      </div>
-    </div>
-  </div>
 </header>
 
 {/*
@@ -210,13 +134,20 @@ const waSaludo = lang === 'es'
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {t.servicios.items.map((s, i) => (
-        <article class="bg-white border border-gray-100 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-shadow duration-300 group fade-in-up">
-          <div class="w-14 h-14 bg-primary-50 rounded-xl flex items-center justify-center text-primary-600 mb-6 group-hover:bg-primary-600 group-hover:text-white transition-colors duration-300">
-            <Icon name={iconosServicio[i] ?? 'box'} class="w-7 h-7" />
-          </div>
-          <h3 class="text-xl font-bold text-gray-900 mb-3">{s.t}</h3>
-          <p class="text-gray-600 leading-relaxed">{s.d}</p>
+      {servicios.map((s) => (
+        <article class="bg-white border border-gray-100 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 group fade-in-up flex">
+          {/* La tarjeta entera es el enlace: un <a> de 14px al final obliga a
+              apuntar, y en movil es el objetivo tactil mas dificil de acertar. */}
+          <a href={langUrl(lang, `/servicios/${s.slug}`)} class="p-8 flex flex-col h-full">
+            <div class="w-14 h-14 bg-primary-50 rounded-xl flex items-center justify-center text-primary-600 mb-6 group-hover:bg-primary-600 group-hover:text-white transition-colors duration-300">
+              <Icon name={s.icono} class="w-7 h-7" />
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary-700 transition-colors">{s.titulo}</h3>
+            <p class="text-gray-600 leading-relaxed mb-5">{s.resumen}</p>
+            <span class="mt-auto inline-flex items-center gap-2 text-primary-600 font-semibold text-sm">
+              {t.serviciosPage.verFicha} <Icon name="arrow" class="w-4 h-4" />
+            </span>
+          </a>
         </article>
       ))}
     </div>
@@ -358,61 +289,11 @@ const waSaludo = lang === 'es'
   </div>
 </section>
 
-{/* ── Pie ────────────────────────────────────────────────────── */}
-<footer class="bg-gray-900 text-gray-300 py-12">
-  <div class="container mx-auto px-4">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-      <div>
-        <div class="flex items-center space-x-2 mb-6">
-          <div class="bg-primary-600 text-white p-2 rounded"><Icon name="globe" class="w-5 h-5" /></div>
-          <div>
-            <span class="block text-xl font-bold text-white leading-tight">{EMPRESA.nombreCorto}</span>
-            <span class="text-xs text-gray-400 uppercase tracking-wider font-semibold">Solutions</span>
-          </div>
-        </div>
-        <p class="text-sm text-gray-400">{t.footer.sobre}</p>
-      </div>
-      <div>
-        <h2 class="text-white font-bold mb-6 uppercase tracking-wider text-sm">{t.footer.enlaces}</h2>
-        <ul class="space-y-3 text-sm">
-          <li><a href="#inicio" class="hover:text-primary-400 transition">{t.nav.inicio}</a></li>
-          <li><a href="#nosotros" class="hover:text-primary-400 transition">{t.nav.nosotros}</a></li>
-          <li><a href="#servicios" class="hover:text-primary-400 transition">{t.nav.servicios}</a></li>
-          <li><a href="#contacto" class="hover:text-primary-400 transition">{t.nav.contacto}</a></li>
-        </ul>
-      </div>
-      <div>
-        <h2 class="text-white font-bold mb-6 uppercase tracking-wider text-sm">{t.footer.servicios}</h2>
-        <ul class="space-y-3 text-sm text-gray-400">
-          {t.servicios.items.slice(0, 5).map((s) => <li>{s.t}</li>)}
-        </ul>
-      </div>
-    </div>
-    <div class="border-t border-gray-800 pt-8 text-sm text-gray-500">
-      <p>&copy; {new Date().getFullYear()} {EMPRESA.nombre} PTY. {t.footer.derechos}</p>
-    </div>
-  </div>
-</footer>
-
-<a href={waLink(waSaludo)} target="_blank" rel="noopener"
-   class="fixed bottom-6 right-6 bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl hover:bg-green-700 hover:scale-110 transition-all z-50"
-   aria-label="WhatsApp">
-  <Icon name="whatsapp" class="w-7 h-7" filled />
-</a>
+<Footer lang={lang} />
 
 <script>
   // Marca que hay JS: el CSS deja las secciones visibles si esto no corre.
   document.documentElement.classList.remove('no-js');
-
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
-  btn?.addEventListener('click', () => {
-    const abierto = menu?.classList.toggle('hidden') === false;
-    btn.setAttribute('aria-expanded', String(abierto));
-  });
-  menu?.querySelectorAll('a').forEach((a) =>
-    a.addEventListener('click', () => menu.classList.add('hidden'))
-  );
 
   const obs = new IntersectionObserver(
     (entries) => entries.forEach((e) => {

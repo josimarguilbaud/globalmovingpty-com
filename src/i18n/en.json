@@ -8,7 +8,9 @@
     "nosotros": "About",
     "servicios": "Services",
     "contacto": "Contact",
-    "cotizar": "Get a quote"
+    "cotizar": "Get a quote",
+    "verTodos": "See all services",
+    "menu": "Open menu"
   },
   "topbar": {
     "horario": "Hours: Mon to Fri, 8:00 AM – 5:00 PM"
@@ -53,45 +55,7 @@
   "servicios": {
     "eyebrow": "What we do",
     "h2": "Complete moving solutions",
-    "lead": "We handle the whole process, from the inventory in your home to the delivery at destination, so your move is a stress-free experience.",
-    "items": [
-      {
-        "t": "International moving",
-        "d": "We move your household goods from Panama to any destination in the world, door to door. We handle the inventory, export packing, ocean or air freight, customs clearance at both origin and destination, and delivery inside your new home. A single coordinator is accountable for the entire move, from start to finish."
-      },
-      {
-        "t": "Local and domestic moving",
-        "d": "Moves within Panama City and to the interior of the country, with the same packing and the same care we apply to an international move. Ideal for changing homes, moving between apartments and relocating staff within Panama, with our own crew and a truck sized to the real volume of your home."
-      },
-      {
-        "t": "Office relocation",
-        "d": "Corporate moves to international standard, planned so your company keeps operating. We work after hours and on weekends, label by workstation and reinstall furniture, files and IT equipment at the new site, so on Monday every person finds their desk up and running."
-      },
-      {
-        "t": "Pet relocation",
-        "d": "Full logistics to move your pet along with the family. We arrange the veterinary health certificate, the export permit, the IATA-compliant travel crate and the booking with airlines that accept live animals, plus the entry paperwork in the destination country."
-      },
-      {
-        "t": "Storage service",
-        "d": "Enclosed warehouses in Panama City with 24/7 surveillance, smoke detection and access control, to store your goods for days or for months. Useful while you close on a house, wait for a visa or settle a sailing date. You pay for the volume you actually occupy, not for a fixed unit."
-      },
-      {
-        "t": "Ocean consolidation Panama – Miami",
-        "d": "Consolidated freight service between Panama and Miami: your goods travel in a shared container with other shipments, so you only pay for the cubic metres you use. It is the most affordable option when you do not fill a full container and are not in a hurry over the arrival date."
-      },
-      {
-        "t": "Customs clearance",
-        "d": "We file your household goods with Panama's National Customs Authority and coordinate clearance at destination through our agent network. We prepare the valued inventory, the declaration and the exemption paperwork where it applies, and tell you the applicable duties in advance so there are no surprises at the port."
-      },
-      {
-        "t": "Professional packing and unpacking",
-        "d": "We pack item by item with export-grade materials: double-wall cartons, acid-free paper for china and artwork, moving blankets for furniture and ISPM 15 stamped wooden crates for fragile pieces. At destination we unpack, reassemble the furniture and take away all the packing material."
-      },
-      {
-        "t": "Specialised insurance",
-        "d": "Domestic and international transit policies covering your goods during handling, the ocean or air leg and the time in storage. We explain what each option covers and what value to declare based on the inventory, so the coverage matches what you are actually shipping."
-      }
-    ]
+    "lead": "We handle the whole process, from the inventory in your home to the delivery at destination, so your move is a stress-free experience."
   },
   "proceso": {
     "h2": "How it works",
@@ -143,6 +107,23 @@
     "sobre": "Your partner for international moves from Panama to anywhere in the world. Safe, on time, professional.",
     "enlaces": "Links",
     "servicios": "Services",
-    "derechos": "All rights reserved."
+    "derechos": "All rights reserved.",
+    "contacto": "Contact"
+  },
+  "serviciosPage": {
+    "eyebrow": "Our services",
+    "h1": "Moving services from Panama",
+    "metaTitle": "International and local moving services in Panama | Global Moving",
+    "metaDescription": "Door-to-door international moving, local and office moves, pets, storage, Miami consolidation, customs, packing and insurance. Nine services explained one by one.",
+    "lead": "Each service has its own page: what it includes, how it is priced, and what clients always ask before booking it.",
+    "incluye": "What it includes",
+    "faqTitulo": "Frequently asked questions",
+    "ctaTitulo": "Shall we quote this service?",
+    "ctaTexto": "Tell us what you need to move and from where. The quote comes from a home survey, not from a phone estimate.",
+    "ctaBoton": "Message us on WhatsApp",
+    "volver": "All services",
+    "otros": "Other services",
+    "migaInicio": "Home",
+    "verFicha": "See the service"
   }
 }

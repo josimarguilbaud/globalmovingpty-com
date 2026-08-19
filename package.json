@@ -9,7 +9,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "prebuild": "node verificar-servicios.mjs",
+    "verificar": "node verificar-servicios.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

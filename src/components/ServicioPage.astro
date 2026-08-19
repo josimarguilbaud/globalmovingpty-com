@@ -1,0 +1,173 @@
+---
+/**
+ * La página de un servicio.
+ *
+ * Una sola plantilla para los nueve, alimentada por `src/data/servicios.<lang>.json`.
+ *
+ * El riesgo conocido de hacerlo así es el contenido delgado: una plantilla
+ * rellenada nueve veces produce nueve páginas que se leen igual, y Google las
+ * trata como una sola. Por eso el cuerpo de cada servicio son secciones libres
+ * (`secciones[]`, con su propio `h2` y sus párrafos) en vez de campos fijos
+ * que solo cambian de sustantivo, y por eso `verificar-servicios.mjs` corre en
+ * el prebuild midiendo cuánto se parecen entre sí.
+ */
+import Layout from '../layouts/Layout.astro';
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import Icon from './Icon.astro';
+import { langUrl, waLink, SITE_URL, EMPRESA, type Locale } from '../lib/site';
+import { useDict, useServicio, useServicios } from '../i18n';
+import { breadcrumbJsonLd } from '../lib/schema';
+
+interface Props { lang: Locale; slug: string }
+const { lang, slug } = Astro.props;
+const t = useDict(lang);
+const s = useServicio(lang, slug);
+const otros = useServicios(lang).filter((x) => x.slug !== slug).slice(0, 4);
+const ruta = `/servicios/${slug}`;
+
+const wa = lang === 'es'
+  ? `Hola, quiero cotizar: ${s.titulo}.`
+  : `Hi, I would like a quote for: ${s.titulo}.`;
+
+/**
+ * `Service` + `FAQPage` en un solo grafo.
+ *
+ * Las preguntas del FAQPage son EXACTAMENTE las que se ven abajo en la página.
+ * Declarar preguntas que el visitante no ve es lo que Google penaliza, y es
+ * fácil que pase si el marcado y el contenido salen de sitios distintos: aquí
+ * los dos leen `s.faq`.
+ */
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Service',
+      name: s.titulo,
+      description: s.metaDescription,
+      serviceType: s.titulo,
+      provider: { '@id': `${SITE_URL}/#negocio` },
+      areaServed: { '@type': 'Country', name: lang === 'es' ? 'Panamá' : 'Panama' },
+      url: `${SITE_URL}${langUrl(lang, ruta)}`,
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: s.faq.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+    breadcrumbJsonLd(lang, [
+      { nombre: t.serviciosPage.migaInicio, path: '/' },
+      { nombre: t.nav.servicios, path: '/servicios' },
+      { nombre: s.titulo, path: ruta },
+    ]),
+  ],
+};
+---
+<Layout lang={lang} title={s.metaTitle} description={s.metaDescription} path={ruta} jsonld={jsonld}>
+  <Nav lang={lang} />
+
+  <article>
+    {/* Cabecera. Sin `fade-in-up`: el H1 se ve al instante, con JS o sin él. */}
+    <header class="bg-primary-900 text-white py-16 md:py-20">
+      <div class="container mx-auto px-4 max-w-4xl">
+        <nav aria-label="Breadcrumb" class="mb-6 text-sm text-primary-200">
+          <ol class="flex flex-wrap items-center gap-2 list-none p-0">
+            <li><a href={langUrl(lang, '/')} class="hover:text-white transition">{t.serviciosPage.migaInicio}</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href={langUrl(lang, '/servicios')} class="hover:text-white transition">{t.nav.servicios}</a></li>
+            <li aria-hidden="true">/</li>
+            <li class="text-white font-medium" aria-current="page">{s.titulo}</li>
+          </ol>
+        </nav>
+        <div class="flex items-center gap-4 mb-6">
+          <div class="w-14 h-14 bg-primary-700 rounded-xl flex items-center justify-center shrink-0">
+            <Icon name={s.icono} class="w-7 h-7 text-secondary" />
+          </div>
+          <h1 class="text-3xl md:text-4xl font-bold leading-tight">{s.h1}</h1>
+        </div>
+        <p class="text-lg text-gray-200 leading-relaxed">{s.entradilla}</p>
+      </div>
+    </header>
+
+    <div class="py-16 md:py-20 bg-white">
+      <div class="container mx-auto px-4 max-w-4xl">
+
+        {s.secciones.map((sec) => (
+          <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">{sec.h2}</h2>
+            {sec.parrafos.map((p) => (
+              <p class="text-gray-600 leading-relaxed mb-4">{p}</p>
+            ))}
+          </section>
+        ))}
+
+        <section class="mb-12 bg-gray-50 border border-gray-100 rounded-2xl p-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">{t.serviciosPage.incluye}</h2>
+          <ul class="space-y-3 list-none p-0">
+            {s.incluye.map((i) => (
+              <li class="flex items-start gap-3 text-gray-700">
+                <Icon name="check" class="w-5 h-5 mt-0.5 shrink-0 text-primary-600" />
+                <span>{i}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section class="mb-12">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">{t.serviciosPage.faqTitulo}</h2>
+          {/* <details> nativo: se abre sin JS y el texto está en el HTML, así
+              que Google lo lee aunque esté plegado. */}
+          {s.faq.map((f) => (
+            <details class="border-b border-gray-200 py-4 group">
+              <summary class="flex items-center justify-between cursor-pointer list-none font-semibold text-gray-900">
+                {f.q}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round"
+                     class="w-5 h-5 shrink-0 ml-4 text-primary-600 transition-transform group-open:rotate-180"
+                     aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+              </summary>
+              <p class="text-gray-600 leading-relaxed mt-3">{f.a}</p>
+            </details>
+          ))}
+        </section>
+
+        <section class="bg-primary-900 text-white rounded-2xl p-8 md:p-10 mb-12">
+          <h2 class="text-2xl font-bold mb-3">{t.serviciosPage.ctaTitulo}</h2>
+          <p class="text-gray-200 leading-relaxed mb-6">{t.serviciosPage.ctaTexto}</p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href={waLink(wa)} target="_blank" rel="noopener"
+               class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-semibold transition shadow-lg flex items-center justify-center">
+              <Icon name="whatsapp" class="w-5 h-5 mr-2" filled /> {t.serviciosPage.ctaBoton}
+            </a>
+            <a href={`tel:${EMPRESA.telefonoRaw}`}
+               class="bg-white/10 hover:bg-white/20 border border-white/30 text-white px-8 py-4 rounded-lg font-semibold transition flex items-center justify-center">
+              <Icon name="phone" class="w-5 h-5 mr-2" /> {EMPRESA.telefono}
+            </a>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-bold text-gray-900 mb-6">{t.serviciosPage.otros}</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+            {otros.map((o) => (
+              <a href={langUrl(lang, `/servicios/${o.slug}`)}
+                 class="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-primary-300 hover:bg-primary-50 transition group">
+                <Icon name={o.icono} class="w-5 h-5 shrink-0 text-primary-600" />
+                <span class="font-medium text-gray-800 group-hover:text-primary-700">{o.nav}</span>
+              </a>
+            ))}
+          </div>
+          <a href={langUrl(lang, '/servicios')} class="inline-flex items-center gap-2 text-primary-600 font-semibold hover:text-primary-700 transition">
+            <Icon name="arrow" class="w-4 h-4 rotate-180" /> {t.serviciosPage.volver}
+          </a>
+        </section>
+
+      </div>
+    </div>
+  </article>
+
+  <Footer lang={lang} />
+</Layout>

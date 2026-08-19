@@ -1,0 +1,10 @@
+---
+import ServicioPage from '../../../components/ServicioPage.astro';
+import { useServicios } from '../../../i18n';
+// Los slugs son los mismos en los dos idiomas a proposito (ver `useServicios`),
+// asi que este getStaticPaths y el de /servicios/ generan el mismo conjunto.
+export function getStaticPaths() {
+  return useServicios('en').map((s) => ({ params: { slug: s.slug } }));
+}
+---
+<ServicioPage lang="en" slug={Astro.params.slug!} />
