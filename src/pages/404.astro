@@ -1,0 +1,46 @@
+---
+/**
+ * Página 404.
+ *
+ * Existe porque `nginx.conf` declara `error_page 404 /404.html`: sin este
+ * fichero, nginx sirve su propia página blanca de «404 Not Found», sin
+ * cabecera, sin marca y sin salida — el visitante se va.
+ *
+ * En español y sin `noindex`: Google no indexa un 404 real de todos modos
+ * (lo dice el código de estado, no una etiqueta), y el `noindex` solo
+ * confundiría si alguna vez esta plantilla se sirviera con un 200.
+ */
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import { useDict } from '../i18n';
+import { EMPRESA, waLink } from '../lib/site';
+
+const lang = 'es' as const;
+const t = useDict(lang);
+---
+<Layout lang={lang} title={`Página no encontrada | ${EMPRESA.nombreCorto}`}
+        description="La página que buscabas no existe o cambió de dirección." path="/404">
+  <section class="min-h-[70vh] flex items-center bg-gray-50">
+    <div class="container mx-auto px-4 py-24 text-center max-w-2xl">
+      <p class="text-7xl font-bold text-primary-600 mb-4">404</p>
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        Esta página no existe
+      </h1>
+      <p class="text-gray-600 mb-10 leading-relaxed">
+        Puede que el enlace esté mal escrito o que la página cambiara de dirección.
+        Si buscabas un servicio concreto, está todo en la portada.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/"
+           class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-lg font-semibold transition shadow-lg">
+          {t.nav.inicio}
+        </a>
+        <a href={waLink('Hola, llegué a una página que no existe en la web y quería consultar por una mudanza.')}
+           target="_blank" rel="noopener"
+           class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-semibold transition shadow-lg flex items-center justify-center">
+          <Icon name="whatsapp" class="w-5 h-5 mr-2" filled /> {t.nav.cotizar}
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
