@@ -115,8 +115,23 @@ const direccion = (EMPRESA as { direccion?: string }).direccion;
       </div>
     </div>
 
-    <div class="border-t border-gray-800 pt-8 text-sm text-gray-500">
+    <div class="border-t border-gray-800 pt-8 text-sm text-gray-500 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
       <p>&copy; {new Date().getFullYear()} {EMPRESA.nombre} PTY. {t.footer.derechos}</p>
+      {/*
+        Crédito de la agencia.
+        El texto del enlace es la marca a secas, no una palabra clave. Un enlace
+        de pie repetido en las 37 páginas con anclaje del tipo «diseño web
+        Panamá» es exactamente el patrón que Google señala como enlace
+        manipulado, y el riesgo lo corre el sitio del cliente, no la agencia.
+        Con anclaje de marca es un crédito normal y no arriesga nada.
+      */}
+      <p>
+        {t.footer.desarrollado}{' '}
+        <a href="https://elementoweb.com" target="_blank" rel="noopener"
+           class="text-gray-400 hover:text-primary-400 transition font-medium">
+          Elemento Web
+        </a>
+      </p>
     </div>
   </div>
 </footer>
