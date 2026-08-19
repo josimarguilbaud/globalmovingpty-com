@@ -11,7 +11,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "prebuild": "node verificar-servicios.mjs",
-    "verificar": "node verificar-servicios.mjs"
+    "verificar": "node verificar-servicios.mjs && node verificar-paginas.mjs",
+    "postbuild": "node verificar-paginas.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

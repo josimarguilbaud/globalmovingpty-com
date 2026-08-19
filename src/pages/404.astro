@@ -11,6 +11,8 @@
  * confundiría si alguna vez esta plantilla se sirviera con un 200.
  */
 import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
 import Icon from '../components/Icon.astro';
 import { useDict } from '../i18n';
 import { EMPRESA, waLink } from '../lib/site';
@@ -20,6 +22,7 @@ const t = useDict(lang);
 ---
 <Layout lang={lang} title={`Página no encontrada | ${EMPRESA.nombreCorto}`}
         description="La página que buscabas no existe o cambió de dirección." path="/404">
+  <Nav lang={lang} />
   <section class="min-h-[70vh] flex items-center bg-gray-50">
     <div class="container mx-auto px-4 py-24 text-center max-w-2xl">
       <p class="text-7xl font-bold text-primary-600 mb-4">404</p>
@@ -28,12 +31,12 @@ const t = useDict(lang);
       </h1>
       <p class="text-gray-600 mb-10 leading-relaxed">
         Puede que el enlace esté mal escrito o que la página cambiara de dirección.
-        Si buscabas un servicio concreto, está todo en la portada.
+        Si buscabas un servicio concreto, está en el menú de arriba o en la lista completa.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="/"
+        <a href="/servicios"
            class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-lg font-semibold transition shadow-lg">
-          {t.nav.inicio}
+          {t.serviciosPage.volver}
         </a>
         <a href={waLink('Hola, llegué a una página que no existe en la web y quería consultar por una mudanza.')}
            target="_blank" rel="noopener"
@@ -43,4 +46,6 @@ const t = useDict(lang);
       </div>
     </div>
   </section>
+
+  <Footer lang={lang} />
 </Layout>
